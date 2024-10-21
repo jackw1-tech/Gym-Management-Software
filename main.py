@@ -2,7 +2,7 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 from kivy.utils import get_color_from_hex
-from gym import *
+from GestionePalestra.view.gym import *
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
@@ -11,7 +11,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.utils import get_color_from_hex
 from kivy.uix.button import Button
-from kivy.graphics import Color, RoundedRectangle
+from kivy.graphics import SmoothRoundedRectangle, Color
 
 
 
@@ -32,13 +32,14 @@ class StylishButton(Button):
         self.canvas.before.clear()
         with self.canvas.before:
             Color(*get_color_from_hex('#007AFF'))
-            RoundedRectangle(pos=self.pos, size=self.size, radius=[15])
+            SmoothRoundedRectangle(pos=self.pos, size=self.size, radius=[15])
 
 class MainScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         layout = BoxLayout(orientation='vertical', padding=20, spacing=20)
 
+        
         title = Label(
             text='Gym Management',
             font_size='32sp',
@@ -50,10 +51,10 @@ class MainScreen(Screen):
         layout.add_widget(title)
 
         buttons = [
-            "Personal Management",
-            "Customer Management",
-            "Accounting Management",
-            "Gym Management"
+            "Gestione Personale",
+            "Gestione Clienti",
+            "Gestione Contabilità",
+            "Gestione Palestra"
         ]
 
         for button_text in buttons:
@@ -65,8 +66,8 @@ class MainScreen(Screen):
 
 
     def button_pressed(self, instance):
-        if instance.text == "Gym Management":
-            self.manager.current = 'gym_management'
+        if instance.text == "Gestione Palestra":
+            self.manager.current = 'gestione_palestra'
         else:
             print(f"{instance.text} button pressed")
 
@@ -77,7 +78,7 @@ class GymManagementApp(App):
 
         sm = ScreenManager()
         sm.add_widget(MainScreen(name='main'))
-        sm.add_widget(GymManagementScreen(name='gym_management'))
+        sm.add_widget(GymManagementScreen(name='gestione_palestra'))
         return sm
 
 if __name__ == '__main__':

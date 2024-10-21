@@ -7,7 +7,7 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 from kivy.utils import get_color_from_hex
-from gym import *
+from GestionePalestra.view.gym import *
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
@@ -16,7 +16,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.utils import get_color_from_hex
 from kivy.uix.button import Button
-from kivy.graphics import Color, RoundedRectangle
+from kivy.graphics import Color, SmoothRoundedRectangle
 
 
 class GymManagementScreen(Screen):
@@ -25,7 +25,7 @@ class GymManagementScreen(Screen):
         layout = BoxLayout(orientation='vertical', padding=20, spacing=20)
 
         title = Label(
-            text='Gym Management',
+            text='Gestione Palestra',
             font_size='32sp',
             bold=True,
             color=get_color_from_hex('#1C1C1E'),
