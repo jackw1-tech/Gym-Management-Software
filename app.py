@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 import firebase_admin
 from firebase_admin import credentials, firestore
+from GestionePalestra.model.corso import corso
 
 # Carica le variabili d'ambiente dal file .env
 load_dotenv()
@@ -24,7 +25,15 @@ doc_ref.set({
     u'data_scadenza': u'2025-10-20'
 })
 
+c = corso("Thai","Doloroso")
+doc_ref1 = db.collection(u'Corsi').document(c.getNome())
+doc_ref1.set({
+    u'nome':c.getNome() ,
+    u'descrizione': c.getDescrizione(),
+})
+
 membri_ref = db.collection(u'membri')
+membri_ref = db.collection(u'Corsi')
 docs = membri_ref.get()
 for doc in docs:
     print(u'{} => {}'.format(doc.id, doc.to_dict()))
