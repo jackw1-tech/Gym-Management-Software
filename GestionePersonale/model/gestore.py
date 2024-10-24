@@ -66,3 +66,38 @@ class Gestore:
         except Exception as e:
             print(f"Errore durante l'autenticazione: {e}")
             return False
+
+    def aggiungi_pt_alla_lista(id_pt):
+        try:
+            # Ottenere il riferimento al documento del gestore
+            user_ref = db.collection('gestore').document("KT1ntbxlXMCTzUAXSSay")
+            user = user_ref.get()
+
+            # Verificare se il documento esiste
+            if user.exists:
+                user_data = user.to_dict()
+
+                # Aggiungere l'ID passato come parametro all'array 'pt' solo se non è già presente
+                if 'pt' in user_data:
+                    pt_list = user_data['pt']
+
+                    
+                    if id_pt not in pt_list:
+                        pt_list.append(id_pt)
+                        user_ref.update({'pt': pt_list})  # Aggiorna il documento con la nuova lista
+                        print(f"ID {id_pt} aggiunto correttamente alla lista 'pt'.")
+                    else:
+                        print(f"ID {id_pt} è già presente nella lista 'pt'.")
+                else:
+                    # Se il campo 'pt' non esiste, lo crea con il nuovo ID
+                    user_ref.update({'pt': [id_pt]})
+                    print(f"Lista 'pt' creata e ID {id_pt} aggiunto correttamente.")
+                
+            else:
+                print("Documento del gestore non trovato.")
+                return False
+        except Exception as e:
+            print(f"Errore durante l'aggiornamento della lista 'pt': {e}")
+            return False
+
+        

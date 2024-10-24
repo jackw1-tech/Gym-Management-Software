@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from GestionePersonale.view.personale_view import PersonaleView
+from GestionePalestra.view.palestra_view import PalestraView
 
 class MainView:
     def __init__(self, master):
@@ -40,6 +41,10 @@ class MainView:
 
     def open_palestra(self):
         print("Apertura schermata Palestra")
+        self.master.destroy()  # Chiude la finestra della dashboard
+        main_window = ctk.CTk()  # Crea una nuova finestra
+        PalestraView(main_window, home_callback=self.go_back_home)  # Apre la schermata del personale con il pulsante Torna alla Home
+        main_window.mainloop()
 
     def open_contabilita(self):
         print("Apertura schermata Contabilità")

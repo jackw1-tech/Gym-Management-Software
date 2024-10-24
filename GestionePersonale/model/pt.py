@@ -2,6 +2,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 import os
 from dotenv import load_dotenv
+from GestionePersonale.model.gestore import Gestore
 
 
 
@@ -59,5 +60,24 @@ class PT:
         except Exception as e:
             print(f"Errore durante l'autenticazione: {e}")
             return False
+        
+    def salva_su_firebase(self):
+        pt_data = {
+            'nome': self.nome,
+            'cognome': self.cognome,
+            'stipendio': self.stipendio,
+            'username': self.username,
+            'password': self.password,
+            'clienti': [],
+            'corsi': []
+        }
+
+        try:
+            # Inserire il documento nella collezione "pt"
+            pt_ref = db.collection('pt').add(pt_data)  # Questo crea automaticamente un nuovo documento con ID univoco
+            print(f"Documento creato con ID: {pt_ref[1].id}")
+            Gestore.aggiungi_pt_alla_lista(pt_ref[1].id)
+        except Exception as e:
+            print(f"Errore durante l'inserimento su Firebase: {e}")
 
    
