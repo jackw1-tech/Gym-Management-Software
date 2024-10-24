@@ -42,5 +42,6 @@ class PersonaleView:
     def find_pt(self):
         self.controller.get_view_trova_pt()
         print("Apertura schermata per trovare PT")
+        
 
         

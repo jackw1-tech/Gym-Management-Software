@@ -16,6 +16,9 @@ class PT:
         self.password = password
         self.clienti = []
         self.corsi = []
+        self.stato = "disponibile"
+        self.data_inizio_ferie = None
+        self.data_fine_ferie = None
 
     def getNome(self):
         return self.nome
@@ -69,8 +72,12 @@ class PT:
             'username': self.username,
             'password': self.password,
             'clienti': [],
-            'corsi': []
+            'corsi': [],
+            'stato': 'disponibile',
+            'data_inizio': "",
+            'data_fine' : "",
         }
+        
 
         try:
             # Inserire il documento nella collezione "pt"
@@ -79,5 +86,29 @@ class PT:
             Gestore.aggiungi_pt_alla_lista(pt_ref[1].id)
         except Exception as e:
             print(f"Errore durante l'inserimento su Firebase: {e}")
+    
+    def cambia_stato_pt(self,id_document,stato):
+        print(id_document)
+        pt_ref = db.collection('pt').document(id_document)
+
+        pt = pt_ref.get()
+        if pt.exists:
+            pt_ref.update({"stato": stato})
+
+    def aggiorna_dati(self,id_document,nome,cognome,stipendio,username,password,stato,data_inizio,data_fine):
+        print(id_document)
+        pt_ref = db.collection('pt').document(id_document)
+
+        pt = pt_ref.get()
+        if pt.exists:
+            pt_ref.update({"nome": nome})
+            pt_ref.update({"cognome": cognome})
+            pt_ref.update({"stipendio": stipendio})
+            pt_ref.update({"username": username})
+            pt_ref.update({"password": password})
+            pt_ref.update({"stato": stato})
+            if(stato == 'In ferie'):
+                pt_ref.update({"data_inizio": data_inizio})
+                pt_ref.update({"data_fine": data_fine})
 
    

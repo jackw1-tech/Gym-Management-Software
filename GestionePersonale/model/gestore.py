@@ -112,7 +112,10 @@ class Gestore:
                         pt_ref = db.collection('pt').document(documento)
                         pt = pt_ref.get()
                         pt_data = pt.to_dict()
-                        lista_pt.append(pt_data)
+                        pt_data['id'] = pt.id
+                        if(pt_data['stato'] != 'cancellato'):
+                            lista_pt.append(pt_data)
+                    print(lista_pt)
                     return lista_pt
                 else:
                     return []

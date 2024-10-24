@@ -1,11 +1,15 @@
 import customtkinter as ctk
+from tkinter import messagebox
+from GestionePersonale.controller.pt_controller import PTController
+from GestionePersonale.model.pt import PT
+from GestionePalestra.view.modifica_pt_view import ModificaPTView
 
 class PersonalTrainerSearchView:
     def __init__(self, master, trainers):
         self.master = master
         self.master.title("Ricerca Personal Trainer")
         self.master.geometry("700x500")
-
+        self.controller = PTController(self)
         # Imposta il tema e i colori
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
@@ -64,7 +68,20 @@ class PersonalTrainerSearchView:
 
     def modify_pt(self, trainer):
         print(f"Modifica {trainer['nome']} {trainer['cognome']}")
+        root = ctk.CTk()  # Crea una nuova finestra
+        ModificaPTView(root, self.controller.get_view_trova_pt, trainer)  # Richiama la schermata di modifica PT
+        root.mainloop()
+
 
     def delete_pt(self, trainer):
+        # Imposta lo stato del trainer a "Cancellato"
         print(f"Elimina {trainer['nome']} {trainer['cognome']}")
+        print(trainer['id'])
+        PT.cambia_stato_pt(self, trainer['id'], "cancellato")
+        # Mostra un popup
+        messagebox.showinfo("Eliminato", f"PT {trainer['nome']} {trainer['cognome']} eliminato")
+        self.master.destroy() 
 
+    
+        
+       
