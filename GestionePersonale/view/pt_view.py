@@ -1,37 +1,35 @@
-import tkinter as tk
-from tkinter import messagebox
+import customtkinter as ctk
 
 class PTView:
     def __init__(self, master):
         self.master = master
-        self.master.title("Gym Management Software - Personal Trainer Menu")
-        self.master.geometry("300x200")
+        self.master.title("Gestione Palestra - Dashboard")
+        self.master.geometry("600x400")
 
-        # Messaggio di benvenuto
-        self.welcome_label = tk.Label(master, text="Benvenuto nella sezione Personal Trainer!")
-        self.welcome_label.pack(pady=10)
+        # Impostare la modalità del tema e i colori
+        ctk.set_appearance_mode("dark")  # Imposta il tema scuro
+        ctk.set_default_color_theme("blue")  # Imposta il tema del colore
 
-        # Pulsanti per le diverse funzionalità
-        self.courses_button = tk.Button(master, text="Corsi", command=self.manage_courses)
-        self.courses_button.pack(pady=5)
+        # Label del titolo
+        self.label_title = ctk.CTkLabel(master, text="Dashboard", font=ctk.CTkFont(size=24, weight="bold"))
+        self.label_title.pack(pady=20)
 
-        self.other_button = tk.Button(master, text="Altro", command=self.manage_other)
-        self.other_button.pack(pady=5)
+        # Creazione dei pulsanti
+        self.button_clienti = ctk.CTkButton(master, text="Clienti", command=self.open_clienti)
+        self.button_clienti.pack(pady=10)
 
-        self.clients_button = tk.Button(master, text="Clienti", command=self.manage_clients)
-        self.clients_button.pack(pady=5)
+        self.button_corsi = ctk.CTkButton(master, text="Corsi", command=self.open_corsi)
+        self.button_corsi.pack(pady=10)
 
-    def manage_courses(self):
-        messagebox.showinfo("Corsi", "Apertura della sezione Corsi.")
+        self.button_palestra = ctk.CTkButton(master, text="Palestra", command=self.open_palestra)
+        self.button_palestra.pack(pady=10)
 
-    def manage_other(self):
-        messagebox.showinfo("Altro", "Apertura della sezione Altro.")
+    # Funzioni placeholder per i pulsanti
+    def open_clienti(self):
+        print("Apertura schermata Clienti")
 
-    def manage_clients(self):
-        messagebox.showinfo("Clienti", "Apertura della sezione Clienti.")
+    def open_corsi(self):
+        print("Apertura schermata Corsi")
 
-# Esempio di utilizzo
-if __name__ == "__main__":
-    root = tk.Tk()
-    pt_view = PTView(root)
-    root.mainloop()
+    def open_palestra(self):
+        print("Apertura schermata Palestra")
