@@ -1,11 +1,12 @@
 import customtkinter as ctk
 from GestionePersonale.view.aggiungi_pt_view import AggiungiPTView
-
+from GestionePersonale.controller.pt_controller import PTController
 class PersonaleView:
     def __init__(self, master, home_callback):
         self.master = master
         self.master.title("Gestione Personal Trainer")
         self.master.geometry("600x400")
+        self.controller = PTController(self)
 
         # Impostare la modalità del tema e i colori
         ctk.set_appearance_mode("dark")  # Imposta il tema scuro
@@ -39,4 +40,7 @@ class PersonaleView:
         main_window.mainloop()
 
     def find_pt(self):
+        self.controller.get_view_trova_pt()
         print("Apertura schermata per trovare PT")
+
+        

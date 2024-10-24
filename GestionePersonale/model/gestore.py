@@ -99,5 +99,27 @@ class Gestore:
         except Exception as e:
             print(f"Errore durante l'aggiornamento della lista 'pt': {e}")
             return False
+    def get_lista_pt(self):
+        lista_pt = []
+        try:
+            user_ref = db.collection('gestore').document("KT1ntbxlXMCTzUAXSSay")
+            user = user_ref.get()
 
+            if user.exists:
+                user_data = user.to_dict()
+                if 'pt' in user_data:
+                    for documento in user_data['pt']:
+                        pt_ref = db.collection('pt').document(documento)
+                        pt = pt_ref.get()
+                        pt_data = pt.to_dict()
+                        lista_pt.append(pt_data)
+                    return lista_pt
+                else:
+                    return []
+            else:
+                print("Documento del gestore non trovato.")
+                return []
+        except Exception as e:
+            print(f"Errore durante il recupero della lista 'pt': {e}")
+            return []
         

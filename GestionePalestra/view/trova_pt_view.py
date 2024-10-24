@@ -1,0 +1,70 @@
+import customtkinter as ctk
+
+class PersonalTrainerSearchView:
+    def __init__(self, master, trainers):
+        self.master = master
+        self.master.title("Ricerca Personal Trainer")
+        self.master.geometry("700x500")
+
+        # Imposta il tema e i colori
+        ctk.set_appearance_mode("dark")
+        ctk.set_default_color_theme("blue")
+
+        # Lista di personal trainer passata come argomento
+        self.trainers = trainers
+        self.filtered_trainers = trainers  # Lista filtrata
+
+        # Label del titolo
+        self.label_title = ctk.CTkLabel(master, text="Ricerca Personal Trainer", font=ctk.CTkFont(size=24, weight="bold"))
+        self.label_title.pack(pady=20)
+
+        # Campo di ricerca
+        self.search_entry = ctk.CTkEntry(master, placeholder_text="Cerca per nome o cognome", width=300)
+        self.search_entry.pack(pady=10)
+
+        # Pulsante di ricerca
+        self.search_button = ctk.CTkButton(master, text="Cerca", command=self.search_trainers)
+        self.search_button.pack(pady=10)
+
+        # Frame per visualizzare i risultati
+        self.result_frame = ctk.CTkFrame(master)
+        self.result_frame.pack(fill="both", expand=True, padx=20, pady=10)
+
+        # Visualizza i primi 5 PT
+        self.display_trainers(self.filtered_trainers[:5])
+
+    def search_trainers(self):
+        query = self.search_entry.get().lower()
+        self.filtered_trainers = [trainer for trainer in self.trainers if query in trainer['nome'].lower() or query in trainer['cognome'].lower()]
+        
+        # Cancella il contenuto precedente e visualizza i risultati filtrati
+        for widget in self.result_frame.winfo_children():
+            widget.destroy()
+
+        self.display_trainers(self.filtered_trainers[:5])
+
+    def display_trainers(self, trainers_to_display):
+        for index, trainer in enumerate(trainers_to_display):  # Mostra solo i trainer passati
+            # Label con Nome e Cognome a sinistra
+            name_label = ctk.CTkLabel(self.result_frame, text=f"{trainer['nome']} {trainer['cognome']}", font=ctk.CTkFont(size=16))
+            name_label.grid(row=index, column=0, padx=10, pady=10, sticky="w")
+
+            # Pulsanti allineati a destra sulla stessa riga
+            button_assign_courses = ctk.CTkButton(self.result_frame, text="Assegna Corsi", command=lambda t=trainer: self.assign_courses(t))
+            button_assign_courses.grid(row=index, column=1, padx=5, pady=10, sticky="e")
+
+            button_modify_pt = ctk.CTkButton(self.result_frame, text="Modifica PT", command=lambda t=trainer: self.modify_pt(t))
+            button_modify_pt.grid(row=index, column=2, padx=5, pady=10, sticky="e")
+
+            button_delete_pt = ctk.CTkButton(self.result_frame, text="Elimina PT", command=lambda t=trainer: self.delete_pt(t))
+            button_delete_pt.grid(row=index, column=3, padx=5, pady=10, sticky="e")
+
+    def assign_courses(self, trainer):
+        print(f"Assegna corsi a {trainer['nome']} {trainer['cognome']}")
+
+    def modify_pt(self, trainer):
+        print(f"Modifica {trainer['nome']} {trainer['cognome']}")
+
+    def delete_pt(self, trainer):
+        print(f"Elimina {trainer['nome']} {trainer['cognome']}")
+
