@@ -1,10 +1,13 @@
 import customtkinter as ctk
+from GestionePalestra.controller.pacchetto_controller import pacchetto_controller
 
 class PalestraView:
     def __init__(self, master, home_callback):
         self.master = master
         self.master.title("Gestione Palestra")
         self.master.geometry("600x400")
+        self.controller = pacchetto_controller(self)
+
 
         # Impostare la modalità del tema e i colori
         ctk.set_appearance_mode("dark")  # Imposta il tema scuro
@@ -38,6 +41,9 @@ class PalestraView:
 
     def visualizza_pacchetti(self):
         print("Visualizzazione dei pacchetti disponibili")
-
+        # Usa direttamente la finestra esistente, senza creare un'altra finestra principale
+        controller = pacchetto_controller(self.master)  # Passa la finestra principale esistente
+        controller.open_course_package_search()
+    
     def visualizza_corsi(self):
         print("Visualizzazione dei corsi disponibili")
