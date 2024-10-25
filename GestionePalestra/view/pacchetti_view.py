@@ -68,8 +68,9 @@ class CoursePackageSearchView:
     def aggiugni_pacchetto_callback():
         print("ciao")
     def add_package(self):
+        self.master.destroy()
         root = ctk.CTkToplevel()
-        AggiungiPacchettoView(root, self.aggiugni_pacchetto_callback)
+        AggiungiPacchettoView(root, self.aggiugni_pacchetto_callback,[])
         root.mainloop()
 
     def view_details(self, package):

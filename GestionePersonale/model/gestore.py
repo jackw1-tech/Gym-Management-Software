@@ -16,6 +16,7 @@ class Gestore:
         self.password = password
         self.lista_clienti = []
         self.lista_pt = []
+        self.lista_corsi = []
 
     #def AggiungiAbbonamento(self, durata, prezzo, scadenza, listaclienti):
         #return Abbonamento(durata, prezzo, scadenza, listaclienti)
@@ -125,4 +126,96 @@ class Gestore:
         except Exception as e:
             print(f"Errore durante il recupero della lista 'pt': {e}")
             return []
+    
+
+    def aggiungi_corso_alla_lista(id_corso):
+        try:
+            user_ref = db.collection('gestore').document("KT1ntbxlXMCTzUAXSSay")
+            user = user_ref.get()
+            if user.exists:
+                user_data = user.to_dict()
+                
+                if 'corsi' in user_data:
+                    corsi_list = user_data['corsi']
+                    if id_corso not in corsi_list:
+                        corsi_list.append(id_corso)
+                        user_ref.update({'corsi': corsi_list})  # Aggiorna il documento con la nuova lista
+                else:
+                    # Se il campo 'pt' non esiste, lo crea con il nuovo ID
+                    user_ref.update({'corsi': [id_corso]})
+                    print(f"Lista 'pt' creata e ID {id_corso} aggiunto correttamente.")
+                
+            else:
+                print("Documento del gestore non trovato.")
+                return False
+        except Exception as e:
+            print(f"Errore durante l'aggiornamento della lista 'pt': {e}")
+            return False
+    
+    def aggiungi_pacchetto_alla_lista(id_pacchetto):
+        try:
+            user_ref = db.collection('gestore').document("KT1ntbxlXMCTzUAXSSay")
+            user = user_ref.get()
+            if user.exists:
+                user_data = user.to_dict()
+                
+                if 'pacchetti' in user_data:
+                    pacchetti_list = user_data['pacchetti']
+                    if id_pacchetto not in pacchetti_list:
+                        pacchetti_list.append(id_pacchetto)
+                        user_ref.update({'pacchetti': pacchetti_list})  # Aggiorna il documento con la nuova lista
+                else:
+                    # Se il campo 'pt' non esiste, lo crea con il nuovo ID
+                    user_ref.update({'pacchetti': [id_pacchetto]})
+                    print(f"Lista 'pt' creata e ID {id_pacchetto} aggiunto correttamente.")
+                
+            else:
+                print("Documento del gestore non trovato.")
+                return False
+        except Exception as e:
+            print(f"Errore durante l'aggiornamento della lista 'pt': {e}")
+            return False
+    
+    def recupera_corsi_dal_documento_gestore():
+        try:
+            # Ottieni il riferimento al documento del gestore
+            user_ref = db.collection('gestore').document("KT1ntbxlXMCTzUAXSSay")
+            user = user_ref.get()
+
+            # Verifica se il documento esiste
+            if user.exists:
+                user_data = user.to_dict()
+                # Controlla se esiste la chiave 'corsi'
+                if 'corsi' in user_data:
+                    return user_data['corsi']  # Restituisce la lista di corsi
+                else:
+                    print("La sezione 'corsi' non è presente nel documento.")
+                    return []
+            else:
+                print("Documento del gestore non trovato.")
+                return []
+        except Exception as e:
+            print(f"Errore durante il recupero della lista 'corsi': {e}")
+            return []
         
+    def recupera_pacchetti_dal_documento_gestore():
+        try:
+            # Ottieni il riferimento al documento del gestore
+            user_ref = db.collection('gestore').document("KT1ntbxlXMCTzUAXSSay")
+            user = user_ref.get()
+
+            # Verifica se il documento esiste
+            if user.exists:
+                user_data = user.to_dict()
+                
+                if 'pacchetti' in user_data:
+                    return user_data['pacchetti']  # Restituisce la lista di corsi
+                else:
+                    print("La sezione 'pacchetti' non è presente nel documento.")
+                    return []
+            else:
+                print("Documento del gestore non trovato.")
+                return []
+        except Exception as e:
+            print(f"Errore durante il recupero della lista 'corsi': {e}")
+            return []

@@ -1,5 +1,7 @@
 import customtkinter as ctk
 from tkinter import messagebox
+from GestionePalestra.view.crea_corso_view import CreaCorsoView
+
 
 class AggiungiCorsiView:
     def __init__(self, master, corsi_disponibili, corsi_selezionati_callback):
@@ -58,12 +60,15 @@ class AggiungiCorsiView:
         else:
             messagebox.showwarning("Attenzione", f"Corso {corso['nome']} non è stato selezionato")
 
+    
+
+    def torna_alla_home(self):
+        self.new_window.destroy()
     def crea_corso(self):
-        # Logica per creare un nuovo corso (puoi aprire un'altra finestra per inserire i dettagli del corso)
-        print("Creazione di un nuovo corso")
-        messagebox.showinfo("Crea Corso", "Qui verrà creato un nuovo corso")
+        self.new_window = ctk.CTkToplevel(self.master)
+        self.app = CreaCorsoView(self.new_window, self.torna_alla_home)
 
     def conferma_corsi(self):
-        # Restituisce i corsi selezionati al callback
-        self.corsi_selezionati_callback(self.corsi_selezionati)
         self.master.destroy()
+        self.corsi_selezionati_callback(self.corsi_selezionati)
+        

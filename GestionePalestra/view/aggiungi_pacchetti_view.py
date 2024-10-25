@@ -1,14 +1,16 @@
 import customtkinter as ctk
 from tkinter import messagebox
 from GestionePalestra.controller.pacchetto_controller import pacchetto_controller
+from GestionePalestra.view.aggiungi_corsi_view import AggiungiCorsiView
 
 class AggiungiPacchettoView:
-    def __init__(self, master, aggiungi_pacchetto_callback):
+    def __init__(self, master, aggiungi_pacchetto_callback, corsi_selezionati):
         self.master = master
         self.master.title("Aggiungi Pacchetto di Corsi")
         self.master.geometry("400x400")
         self.aggiungi_pacchetto_callback = aggiungi_pacchetto_callback
-        self.pachetto_controller = 
+        self.pachetto_controller = pacchetto_controller(self)
+        self.corsi_sel = corsi_selezionati
 
         # Imposta il tema e i colori
         ctk.set_appearance_mode("dark")
@@ -30,6 +32,13 @@ class AggiungiPacchettoView:
         self.entry_prezzo = ctk.CTkEntry(master, placeholder_text="Inserisci prezzo pacchetto")
         self.entry_prezzo.pack(pady=10)
 
+        # Frame per visualizzare i corsi selezionati
+        self.corsi_selezionati_frame = ctk.CTkFrame(master)
+        self.corsi_selezionati_frame.pack(fill="both", expand=True, padx=20, pady=10)
+
+        # Mostra i corsi selezionati
+        self.mostra_corsi_selezionati(corsi_selezionati)
+
         # Pulsante per aggiungere corsi
         self.aggiungi_corsi_button = ctk.CTkButton(master, text="Aggiungi Corsi", command=self.aggiungi_corsi)
         self.aggiungi_corsi_button.pack(pady=20)
@@ -38,29 +47,30 @@ class AggiungiPacchettoView:
         self.submit_button = ctk.CTkButton(master, text="Aggiungi Pacchetto", command=self.submit_pacchetto)
         self.submit_button.pack(pady=20)
 
-    def aggiungi_corsi(self):
-        # Logica per aggiungere corsi al pacchetto (potresti voler aprire un'altra finestra per la selezione dei corsi)
-        print("Aggiungi corsi")
-        messagebox.showinfo("Aggiungi Corsi", "Qui verranno aggiunti i corsi")
-        p = []
-        self.pachetto_controller.corsi_selezionati_callback(self, p)
+    def mostra_corsi_selezionati(self, corsi_selezionati):
+        # Pulisci il frame esistente
+        for widget in self.corsi_selezionati_frame.winfo_children():
+            widget.destroy()
 
+        # Mostra i corsi selezionati
+        if not corsi_selezionati:
+            label_no_courses = ctk.CTkLabel(self.corsi_selezionati_frame, text="Nessun corso selezionato.", font=ctk.CTkFont(size=14))
+            label_no_courses.pack(pady=10)
+            return
+
+        for corso in corsi_selezionati:
+            label_corso = ctk.CTkLabel(self.corsi_selezionati_frame, text=corso['nome'], font=ctk.CTkFont(size=14))
+            label_corso.pack(pady=5)
+
+    def aggiungi_corsi(self):
+        self.master.destroy()
+        self.pachetto_controller.aggiungi_corso_view()
+        
     def submit_pacchetto(self):
-        # Prendi i valori inseriti
         nome_pacchetto = self.entry_nome.get()
         prezzo_pacchetto = self.entry_prezzo.get()
-
-        if not nome_pacchetto or not prezzo_pacchetto:
-            messagebox.showwarning("Errore", "Compila tutti i campi")
-            return
-
-        try:
-            prezzo = float(prezzo_pacchetto)
-        except ValueError:
-            messagebox.showerror("Errore", "Il prezzo deve essere un numero valido")
-            return
-
-        # Chiama la funzione di callback per salvare il pacchetto (es. salvarlo nel database)
-        self.aggiungi_pacchetto_callback(nome_pacchetto, prezzo)
+      
+        self.pachetto_controller.crea_pacchetto(nome_pacchetto,prezzo_pacchetto,self.corsi_sel)
+        
         messagebox.showinfo("Successo", f"Pacchetto '{nome_pacchetto}' aggiunto con successo!")
-        self.master.destroy()  # Chiudi la finestra dopo aver aggiunto il pacchetto
+        self.master.destroy() 

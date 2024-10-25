@@ -1,12 +1,15 @@
 import customtkinter as ctk
-from GestionePalestra.view.pacchetti_view import CoursePackageSearchView
-from GestionePalestra.view.aggiungi_pacchetti_view import AggiungiCorsiView
+from GestionePalestra.view.aggiungi_corsi_view import AggiungiCorsiView
+from GestionePalestra.model.corso import corso
+from GestionePersonale.model.gestore import Gestore
+from GestionePalestra.model.pacchetto import pacchetto
 
 class pacchetto_controller:
     def __init__(self, master):
         self.master = master
 
     def open_course_package_search(self):
+        from GestionePalestra.view.pacchetti_view import CoursePackageSearchView
         # Recupera i pacchetti di corsi, in un’applicazione reale, questi dati verrebbero recuperati dal database
         packages = self.get_course_packages()
 
@@ -15,31 +18,33 @@ class pacchetto_controller:
         CoursePackageSearchView(search_window, packages)
 
     def get_course_packages(self):
-        # Simulazione di dati dei pacchetti di corsi per il test
-        return [
-            {"nome": "Pacchetto Yoga", "id": "pkg1"},
-            {"nome": "Pacchetto Crossfit", "id": "pkg2"},
-            {"nome": "Pacchetto Pilates", "id": "pkg3"},
-            {"nome": "Pacchetto Cardio", "id": "pkg4"},
-            {"nome": "Pacchetto Strength", "id": "pkg5"},
-            {"nome": "Pacchetto HIIT", "id": "pkg6"},
-        ]
+        ids = Gestore.recupera_pacchetti_dal_documento_gestore()
+        return pacchetto.recupera_pacchetti_da_ids(ids)
+       
     
-    def corsi_selezionati_callback(corsi):
-    # Logica per gestire i corsi selezionati (es. salvarli nel pacchetto)
-        for corso in corsi:
-            print(f"Corso selezionato: {corso['nome']}")
+  
+    
+    def ciao(self,corsi_selezionati):
+        from GestionePalestra.view.aggiungi_pacchetti_view import AggiungiPacchettoView
+        print(corsi_selezionati)
+        root = ctk.CTkToplevel()
+        AggiungiPacchettoView(root, print("ciao"),corsi_selezionati)
+        root.mainloop()
+        
+    def aggiungi_corso_view(self):
+        corsi = Gestore.recupera_corsi_dal_documento_gestore()
+        print(corsi)
+        corsi_disponibili = corso.recupera_corsi_da_firebase(corsi)
+        root = ctk.CTkToplevel()
+        AggiungiCorsiView(root, corsi_disponibili, self.ciao)
+        root.mainloop()
 
-    # Dati fittizi di corsi disponibili
-    corsi_disponibili = [
-        {"nome": "Yoga", "id": "corso1"},
-        {"nome": "Crossfit", "id": "corso2"},
-        {"nome": "Pilates", "id": "corso3"},
-        {"nome": "Cardio", "id": "corso4"},
-        {"nome": "Strength", "id": "corso5"},
-    ]
+    def crea_pacchetto(self,nome,prezzo,corsi_selezionati):
+        lista_doc_id_corsi = []
+        for corso_str in corsi_selezionati:
+            lista_doc_id_corsi.append(corso.get_document_id(corso_str))
+        Pacchetto_nuovo = pacchetto(prezzo,nome,lista_doc_id_corsi)
+        Pacchetto_nuovo.aggiungi_pacchetto_a_firebase()
+   
 
-    # In qualche parte del codice
-    root = ctk.CTkToplevel()
-    AggiungiCorsiView(root, corsi_disponibili, corsi_selezionati_callback)
-    root.mainloop()
+    
