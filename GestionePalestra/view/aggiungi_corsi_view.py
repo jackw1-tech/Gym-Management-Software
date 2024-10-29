@@ -7,7 +7,7 @@ class AggiungiCorsiView:
     def __init__(self, master, corsi_disponibili, corsi_selezionati_callback):
         self.master = master
         self.master.title("Aggiungi Corsi al Pacchetto")
-        self.master.geometry("500x500")
+        self.master.geometry("600x500")
         self.corsi_disponibili = corsi_disponibili
         self.corsi_selezionati = []  # Corsi aggiunti al pacchetto
         self.corsi_selezionati_callback = corsi_selezionati_callback
@@ -34,6 +34,25 @@ class AggiungiCorsiView:
         # Pulsante per confermare i corsi selezionati
         self.conferma_button = ctk.CTkButton(master, text="Conferma Corsi Selezionati", command=self.conferma_corsi)
         self.conferma_button.pack(pady=10)
+        
+        self.center_window()
+
+    def center_window(self):
+        # Calcolare la larghezza e l'altezza dello schermo
+        screen_width = self.master.winfo_screenwidth()
+        screen_height = self.master.winfo_screenheight()
+
+        # Calcolare le dimensioni della finestra
+        window_width = 600
+        window_height = 500
+
+        # Calcolare la posizione x e y per centrare la finestra
+        x = (screen_width // 2) - (window_width // 2)
+        y = (screen_height // 2) - (window_height // 2)
+
+        # Impostare la geometria della finestra
+        self.master.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
 
     def display_corsi_disponibili(self):
         for index, corso in enumerate(self.corsi_disponibili):

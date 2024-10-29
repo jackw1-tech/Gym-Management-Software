@@ -7,7 +7,7 @@ class AggiungiPacchettoView:
     def __init__(self, master, aggiungi_pacchetto_callback, corsi_selezionati):
         self.master = master
         self.master.title("Aggiungi Pacchetto di Corsi")
-        self.master.geometry("400x400")
+        self.master.geometry("600x500")
         self.aggiungi_pacchetto_callback = aggiungi_pacchetto_callback
         self.pachetto_controller = pacchetto_controller(self)
         self.corsi_sel = corsi_selezionati
@@ -46,6 +46,23 @@ class AggiungiPacchettoView:
         # Pulsante per aggiungere il pacchetto
         self.submit_button = ctk.CTkButton(master, text="Aggiungi Pacchetto", command=self.submit_pacchetto)
         self.submit_button.pack(pady=20)
+        self.center_window()
+
+    def center_window(self):
+        # Calcolare la larghezza e l'altezza dello schermo
+        screen_width = self.master.winfo_screenwidth()
+        screen_height = self.master.winfo_screenheight()
+
+        # Calcolare le dimensioni della finestra
+        window_width = 600
+        window_height = 500
+
+        # Calcolare la posizione x e y per centrare la finestra
+        x = (screen_width // 2) - (window_width // 2)
+        y = (screen_height // 2) - (window_height // 2)
+
+        # Impostare la geometria della finestra
+        self.master.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
     def mostra_corsi_selezionati(self, corsi_selezionati):
         # Pulisci il frame esistente

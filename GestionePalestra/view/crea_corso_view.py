@@ -6,7 +6,7 @@ class CreaCorsoView:
     def __init__(self, master, home_callback):
         self.master = master
         self.master.title("Aggiungi Nuovo Corso")
-        self.master.geometry("600x400")
+        self.master.geometry("600x500")
         self.corso_controller = corso_controller(self)
         
 
@@ -41,6 +41,24 @@ class CreaCorsoView:
         # Pulsante per tornare alla Home
         self.button_back_home = ctk.CTkButton(self.scrollable_frame, text="Torna alla Home", command=lambda: self.torno_alla_home(home_callback))
         self.button_back_home.pack(pady=10)
+        self.center_window()
+
+    def center_window(self):
+        # Calcolare la larghezza e l'altezza dello schermo
+        screen_width = self.master.winfo_screenwidth()
+        screen_height = self.master.winfo_screenheight()
+
+        # Calcolare le dimensioni della finestra
+        window_width = 600
+        window_height = 500
+
+        # Calcolare la posizione x e y per centrare la finestra
+        x = (screen_width // 2) - (window_width // 2)
+        y = (screen_height // 2) - (window_height // 2)
+
+        # Impostare la geometria della finestra
+        self.master.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
 
     def torno_alla_home(self, funzione):
         self.master.destroy()

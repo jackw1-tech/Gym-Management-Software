@@ -6,7 +6,7 @@ class ModificaPTView:
     def __init__(self, master, home_callback, trainer_data):
         self.master = master
         self.master.title("Modifica Personal Trainer")
-        self.master.geometry("600x600")
+        self.master.geometry("700x600")
         self.controller = PTController(self)
         self.trainer_data = trainer_data  # Dati esistenti del PT
 
@@ -47,9 +47,10 @@ class ModificaPTView:
         self.entry_username.insert(0, trainer_data['username'])  # Pre-riempi con lo username esistente
         self.entry_username.pack(pady=5)
 
-        self.label_password = ctk.CTkLabel(self.scrollable_frame, text="Password:")
+        self.label_password = ctk.CTkLabel(self.scrollable_frame, text="Password (obbligatoria):")
         self.label_password.pack(pady=5)
         self.entry_password = ctk.CTkEntry(self.scrollable_frame, placeholder_text="Inserisci la password", show="*")
+        
         self.entry_password.pack(pady=5)
 
         # Menu a discesa per selezionare lo stato
@@ -65,6 +66,7 @@ class ModificaPTView:
         # Campi per le date di inizio e fine ferie (inizialmente nascosti)
         self.label_data_inizio = ctk.CTkLabel(self.scrollable_frame, text="Data inizio ferie:")
         self.entry_data_inizio = ctk.CTkEntry(self.scrollable_frame, placeholder_text="Inserisci la data di inizio")
+        
         self.label_data_fine = ctk.CTkLabel(self.scrollable_frame, text="Data fine ferie:")
         self.entry_data_fine = ctk.CTkEntry(self.scrollable_frame, placeholder_text="Inserisci la data di fine")
 
@@ -73,53 +75,85 @@ class ModificaPTView:
             self.mostra_campi_ferie()
 
         # Pulsante per salvare le modifiche
-        self.button_salva = ctk.CTkButton(self.scrollable_frame, text="Salva Modifiche", command=self.salva_modifiche_pt)
+        self.button_salva = ctk.CTkButton(self.scrollable_frame, text="Salva Modifiche", command=lambda: self.salva_modifiche_pt(home_callback))
         self.button_salva.pack(pady=10)
 
         # Pulsante per tornare alla Home
-        self.button_back_home = ctk.CTkButton(self.scrollable_frame, text="Torna alla Home", command=lambda: self.torno_alla_home(home_callback))
+        self.button_back_home = ctk.CTkButton(self.scrollable_frame, text="Torna alla Home", command=lambda: self.torna_alla_home(home_callback))
         self.button_back_home.pack(pady=10)
+        
+    def center_window(self):
+       # Calcolare la larghezza e l'altezza dello schermo
+       screen_width = self.master.winfo_screenwidth()
+       screen_height = self.master.winfo_screenheight()
+
+       # Calcolare le dimensioni della finestra
+       window_width = 700
+       window_height = 600
+
+       # Calcolare la posizione x e y per centrare la finestra
+       x = (screen_width // 2) - (window_width // 2)
+       y = (screen_height // 2) - (window_height // 2)
+
+       # Impostare la geometria della finestra
+       self.master.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
     def on_stato_change(self, stato_selezionato):
-        # Mostra o nasconde i campi delle date di ferie in base allo stato selezionato
-        if stato_selezionato == "In ferie":
-            self.mostra_campi_ferie()
-        else:
-            self.nascondi_campi_ferie()
+       # Mostra o nasconde i campi delle date di ferie in base allo stato selezionato
+       if stato_selezionato == "In ferie":
+           self.mostra_campi_ferie()
+       else:
+           self.nascondi_campi_ferie()
 
     def mostra_campi_ferie(self):
-        self.label_data_inizio.pack(pady=5)
-        self.entry_data_inizio.pack(pady=5)
-        self.label_data_fine.pack(pady=5)
-        self.entry_data_fine.pack(pady=5)
+       self.label_data_inizio.pack(pady=5)
+       self.entry_data_inizio.pack(pady=5)
+       self.label_data_fine.pack(pady=5)
+       self.entry_data_fine.pack(pady=5)
 
     def nascondi_campi_ferie(self):
-        self.label_data_inizio.pack_forget()
-        self.entry_data_inizio.pack_forget()
-        self.label_data_fine.pack_forget()
-        self.entry_data_fine.pack_forget()
+       self.label_data_inizio.pack_forget()
+       self.entry_data_inizio.pack_forget()
+       self.label_data_fine.pack_forget()
+       self.entry_data_fine.pack_forget()
 
     def torna_alla_home(self, funzione):
-        self.master.destroy()  # Chiude la finestra corrente
-        funzione()  # Richiama il callback passato (torna alla home)
+       funzione()  # Richiama il callback passato (torna alla home)
 
-    def salva_modifiche_pt(self):
-        nome = self.entry_nome.get()
-        cognome = self.entry_cognome.get()
-        stipendio = self.entry_stipendio.get()
-        username = self.entry_username.get()
-        password = self.entry_password.get()
-        stato = self.optionmenu_stato.get()
+    def salva_modifiche_pt(self, funzione):
+       nome = self.entry_nome.get()
+       cognome = self.entry_cognome.get()
+       stipendio = self.entry_stipendio.get()
+       username = self.entry_username.get()
+       password = self.entry_password.get()
+       
+       if not password:  # Controllo se la password è vuota
+           ctk.CTkMessageBox.show_error("Errore", "La password è obbligatoria!")
+           return
 
-        # Se lo stato è "In ferie", ottenere anche le date
-        if stato == "In ferie":
-            data_inizio = self.entry_data_inizio.get()
-            data_fine = self.entry_data_fine.get()
-            print(f"In ferie dal {data_inizio} al {data_fine}")
-        else:
-            data_inizio = None
-            data_fine = None
+       stato = self.optionmenu_stato.get()
 
        
-        PT.aggiorna_dati(self, self.trainer_data['id'], nome, cognome, stipendio, username, password, stato, data_inizio, data_fine)
-        print(f"Modifiche salvate per {nome} {cognome}")
+       if stato == "In ferie":
+           data_inizio = self.entry_data_inizio.get()
+           data_fine = self.entry_data_fine.get()
+           print(f"In ferie dal {data_inizio} al {data_fine}")
+       else:
+           data_inizio = None
+           data_fine = None
+
+       
+       PT.aggiorna_dati(self.controller, 
+                        id=self.trainer_data['id'], 
+                        nome=nome,
+                        cognome=cognome,
+                        stipendio=stipendio,
+                        username=username,
+                        password=password,
+                        stato=stato,
+                        data_inizio=data_inizio,
+                        data_fine=data_fine)
+       
+       print(f"Modifiche salvate per {nome} {cognome}")
+       self.master.destroy() 
+       funzione()  # Richiama il callback passato (torna alla home)

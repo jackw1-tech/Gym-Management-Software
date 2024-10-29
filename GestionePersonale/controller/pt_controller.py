@@ -18,7 +18,6 @@ class PTController:
     def get_view_trova_pt(self):
         from GestionePalestra.view.trova_pt_view import PersonalTrainerSearchView
         personal_trainers = Gestore.get_lista_pt(self)
-        print(personal_trainers)
         root = ctk.CTk()
         PersonalTrainerSearchView(root, personal_trainers)
         root.mainloop()

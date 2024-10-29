@@ -14,10 +14,11 @@ class LoginController:
             self.view.master.destroy()
             from login.view.gestore_view import MainView
             main_window = ctk.CTk() 
-          # Imposta la finestra in modalità schermo intero
+            
             main_window.title("Dashboard Gestore")
             MainView(main_window)   
             main_window.mainloop()
+           
         else:
             if PT.check_credentials_gestore(username, password):
                 self.view.master.destroy()

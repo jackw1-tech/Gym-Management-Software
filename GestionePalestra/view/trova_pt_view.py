@@ -8,7 +8,7 @@ class PersonalTrainerSearchView:
     def __init__(self, master, trainers):
         self.master = master
         self.master.title("Ricerca Personal Trainer")
-        self.master.geometry("700x500")
+        self.master.geometry("700x600")
         self.controller = PTController(self)
         # Imposta il tema e i colori
         ctk.set_appearance_mode("dark")
@@ -36,6 +36,24 @@ class PersonalTrainerSearchView:
 
         # Visualizza i primi 5 PT
         self.display_trainers(self.filtered_trainers[:5])
+        self.center_window()
+
+    def center_window(self):
+        # Calcolare la larghezza e l'altezza dello schermo
+        screen_width = self.master.winfo_screenwidth()
+        screen_height = self.master.winfo_screenheight()
+
+        # Calcolare le dimensioni della finestra
+        window_width = 700
+        window_height = 600
+
+        # Calcolare la posizione x e y per centrare la finestra
+        x = (screen_width // 2) - (window_width // 2)
+        y = (screen_height // 2) - (window_height // 2)
+
+        # Impostare la geometria della finestra
+        self.master.geometry(f"{window_width}x{window_height}+{x}+{y}")
+
 
     def search_trainers(self):
         query = self.search_entry.get().lower()
@@ -67,7 +85,7 @@ class PersonalTrainerSearchView:
         print(f"Assegna corsi a {trainer['nome']} {trainer['cognome']}")
 
     def modify_pt(self, trainer):
-        print(f"Modifica {trainer['nome']} {trainer['cognome']}")
+        self.master.destroy() 
         root = ctk.CTk()  # Crea una nuova finestra
         ModificaPTView(root, self.controller.get_view_trova_pt, trainer)  # Richiama la schermata di modifica PT
         root.mainloop()
