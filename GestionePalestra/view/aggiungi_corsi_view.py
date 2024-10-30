@@ -7,7 +7,7 @@ class AggiungiCorsiView:
     def __init__(self, master, corsi_disponibili, corsi_selezionati_callback):
         self.master = master
         self.master.title("Aggiungi Corsi al Pacchetto")
-        self.master.geometry("600x500")
+        self.master.geometry("700x600")
         self.corsi_disponibili = corsi_disponibili
         self.corsi_selezionati = []  # Corsi aggiunti al pacchetto
         self.corsi_selezionati_callback = corsi_selezionati_callback
@@ -43,8 +43,8 @@ class AggiungiCorsiView:
         screen_height = self.master.winfo_screenheight()
 
         # Calcolare le dimensioni della finestra
-        window_width = 600
-        window_height = 500
+        window_width = 700
+        window_height = 600
 
         # Calcolare la posizione x e y per centrare la finestra
         x = (screen_width // 2) - (window_width // 2)

@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 
 
+
 load_dotenv()
 cred_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 cred = credentials.Certificate(os.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
@@ -101,6 +102,7 @@ class Gestore:
             print(f"Errore durante l'aggiornamento della lista 'pt': {e}")
             return False
     def get_lista_pt(self):
+        from GestionePersonale.model.pt import PT
         lista_pt = []
         try:
             user_ref = db.collection('gestore').document("KT1ntbxlXMCTzUAXSSay")
@@ -116,6 +118,9 @@ class Gestore:
                         pt_data['id'] = pt.id
                         if(pt_data['stato'] != 'cancellato'):
                             lista_pt.append(pt_data)
+                            PT.manda_in_ferie(pt_data['id'])
+                            
+                            
                     print(lista_pt)
                     return lista_pt
                 else:

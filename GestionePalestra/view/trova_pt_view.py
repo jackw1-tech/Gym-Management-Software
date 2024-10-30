@@ -5,11 +5,12 @@ from GestionePersonale.model.pt import PT
 from GestionePalestra.view.modifica_pt_view import ModificaPTView
 
 class PersonalTrainerSearchView:
-    def __init__(self, master, trainers):
+    def __init__(self, master, trainers, back_function):
         self.master = master
         self.master.title("Ricerca Personal Trainer")
         self.master.geometry("700x600")
         self.controller = PTController(self)
+        self.back = back_function
         # Imposta il tema e i colori
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
@@ -29,6 +30,10 @@ class PersonalTrainerSearchView:
         # Pulsante di ricerca
         self.search_button = ctk.CTkButton(master, text="Cerca", command=self.search_trainers)
         self.search_button.pack(pady=10)
+
+        # Pulsante Torna Indietro
+        self.back_button = ctk.CTkButton(master, text="Torna Indietro", command=self.torna_indietro)
+        self.back_button.pack(pady=10)
 
         # Frame per visualizzare i risultati
         self.result_frame = ctk.CTkFrame(master)
@@ -82,7 +87,8 @@ class PersonalTrainerSearchView:
             button_delete_pt.grid(row=index, column=3, padx=5, pady=10, sticky="e")
 
     def assign_courses(self, trainer):
-        print(f"Assegna corsi a {trainer['nome']} {trainer['cognome']}")
+        self.master.destroy() 
+        self.controller.assegna_corsi_view(str({trainer['id']}))
 
     def modify_pt(self, trainer):
         self.master.destroy() 
@@ -90,6 +96,9 @@ class PersonalTrainerSearchView:
         ModificaPTView(root, self.controller.get_view_trova_pt, trainer)  # Richiama la schermata di modifica PT
         root.mainloop()
 
+    def torna_indietro(self):
+        self.master.destroy() 
+        self.back()
 
     def delete_pt(self, trainer):
         # Imposta lo stato del trainer a "Cancellato"
@@ -98,8 +107,6 @@ class PersonalTrainerSearchView:
         PT.cambia_stato_pt(self, trainer['id'], "cancellato")
         # Mostra un popup
         messagebox.showinfo("Eliminato", f"PT {trainer['nome']} {trainer['cognome']} eliminato")
-        self.master.destroy() 
-
-    
+        self.master.destroy()
+        self.back()
         
-       

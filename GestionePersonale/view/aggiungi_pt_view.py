@@ -1,3 +1,4 @@
+from tkinter import messagebox
 import customtkinter as ctk
 from GestionePersonale.controller.pt_controller import PTController
 
@@ -5,7 +6,7 @@ class AggiungiPTView:
     def __init__(self, master, home_callback):
         self.master = master
         self.master.title("Aggiungi Personal Trainer")
-        self.master.geometry("600x500")
+        self.master.geometry("700x600")
         self.controller = PTController(self)
 
         # Impostare la modalità del tema e i colori
@@ -47,7 +48,7 @@ class AggiungiPTView:
         self.entry_password.pack(pady=5)
 
         # Pulsante Registra
-        self.button_registra = ctk.CTkButton(self.scrollable_frame, text="Registra", command=self.registra_pt)
+        self.button_registra = ctk.CTkButton(self.scrollable_frame, text="Registra", command=lambda: self.registra_pt(home_callback))
         self.button_registra.pack(pady=10)
 
         # Pulsante per tornare alla Home
@@ -61,8 +62,8 @@ class AggiungiPTView:
         screen_height = self.master.winfo_screenheight()
 
         # Calcolare le dimensioni della finestra
-        window_width = 600
-        window_height = 500
+        window_width = 700
+        window_height = 600
 
         # Calcolare la posizione x e y per centrare la finestra
         x = (screen_width // 2) - (window_width // 2)
@@ -76,7 +77,7 @@ class AggiungiPTView:
         self.master.destroy()  # Chiude la finestra corrente
         funzione()  # Richiama il callback passato (torna alla home)
 
-    def registra_pt(self):
+    def registra_pt(self,funzione):
         nome = self.entry_nome.get()
         cognome = self.entry_cognome.get()
         stipendio = self.entry_stipendio.get()
@@ -85,3 +86,5 @@ class AggiungiPTView:
         
         # Chiamata al controller per creare il Personal Trainer
         self.controller.crea_pt(nome,cognome,stipendio,username,password)
+        messagebox.showinfo("Successo", "Pt registrato con successo")
+        funzione()

@@ -5,7 +5,7 @@ class PersonaleView:
     def __init__(self, master, home_callback):
         self.master = master
         self.master.title("Gestione Personal Trainer")
-        self.master.geometry("600x500")
+        self.master.geometry("700x600")
         self.controller = PTController(self)
 
         # Impostare la modalità del tema e i colori
@@ -35,8 +35,8 @@ class PersonaleView:
         screen_height = self.master.winfo_screenheight()
 
         # Calcolare le dimensioni della finestra
-        window_width = 600
-        window_height = 500
+        window_width = 700
+        window_height = 600
 
         # Calcolare la posizione x e y per centrare la finestra
         x = (screen_width // 2) - (window_width // 2)

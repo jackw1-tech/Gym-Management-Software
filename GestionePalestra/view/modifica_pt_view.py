@@ -1,3 +1,5 @@
+from datetime import datetime
+from tkinter import messagebox
 import customtkinter as ctk
 from GestionePersonale.controller.pt_controller import PTController
 from GestionePersonale.model.pt import PT
@@ -64,12 +66,13 @@ class ModificaPTView:
         self.optionmenu_stato.pack(pady=5)
 
         # Campi per le date di inizio e fine ferie (inizialmente nascosti)
-        self.label_data_inizio = ctk.CTkLabel(self.scrollable_frame, text="Data inizio ferie:")
+        self.label_data_inizio = ctk.CTkLabel(self.scrollable_frame, text="Data inizio ferie (DD/MM/YYYY):")
         self.entry_data_inizio = ctk.CTkEntry(self.scrollable_frame, placeholder_text="Inserisci la data di inizio")
+        self.entry_data_inizio.insert(0, trainer_data['data_inizio']) 
         
-        self.label_data_fine = ctk.CTkLabel(self.scrollable_frame, text="Data fine ferie:")
+        self.label_data_fine = ctk.CTkLabel(self.scrollable_frame, text="Data fine ferie (DD/MM/YYYY):")
         self.entry_data_fine = ctk.CTkEntry(self.scrollable_frame, placeholder_text="Inserisci la data di fine")
-
+        self.entry_data_fine.insert(0, trainer_data['data_fine']) 
         # Mostra i campi delle date se lo stato è già "In ferie"
         if trainer_data['stato'] == "In ferie":
             self.mostra_campi_ferie()
@@ -79,8 +82,10 @@ class ModificaPTView:
         self.button_salva.pack(pady=10)
 
         # Pulsante per tornare alla Home
-        self.button_back_home = ctk.CTkButton(self.scrollable_frame, text="Torna alla Home", command=lambda: self.torna_alla_home(home_callback))
+        self.button_back_home = ctk.CTkButton(self.scrollable_frame, text="Torna indietro", command=lambda: self.torna_alla_home(home_callback))
         self.button_back_home.pack(pady=10)
+        
+        self.center_window()
         
     def center_window(self):
        # Calcolare la larghezza e l'altezza dello schermo
@@ -116,9 +121,10 @@ class ModificaPTView:
        self.entry_data_inizio.pack_forget()
        self.label_data_fine.pack_forget()
        self.entry_data_fine.pack_forget()
-
+       
     def torna_alla_home(self, funzione):
-       funzione()  # Richiama il callback passato (torna alla home)
+        self.master.destroy() 
+        funzione()  # Richiama il callback passato (torna alla home)
 
     def salva_modifiche_pt(self, funzione):
        nome = self.entry_nome.get()
@@ -126,25 +132,44 @@ class ModificaPTView:
        stipendio = self.entry_stipendio.get()
        username = self.entry_username.get()
        password = self.entry_password.get()
-       
-       if not password:  # Controllo se la password è vuota
-           ctk.CTkMessageBox.show_error("Errore", "La password è obbligatoria!")
+      
+       if not password:  
+           messagebox.showinfo("Errore", "Password Obbligatoria")
            return
 
        stato = self.optionmenu_stato.get()
+
+       data_inizio = self.entry_data_inizio.get()
+       if data_inizio:
+        try:
+                # Prova a convertire la data nel formato richiesto
+                datetime.strptime(data_inizio, "%d/%m/%Y")
+            
+        except ValueError:
+                # Mostra un messaggio di errore se il formato non è corretto
+                messagebox.showerror("Errore", "Inserisci la data di inizio ferie nel formato DD/MM/YYYY.")
+            
+       data_fine = self.entry_data_fine.get()
+       if data_fine: 
+        try:
+                # Prova a convertire la data nel formato richiesto
+                datetime.strptime(data_fine, "%d/%m/%Y")
+            
+        except ValueError:
+                # Mostra un messaggio di errore se il formato non è corretto
+                messagebox.showerror("Errore", "Inserisci la data di fine ferie nel formato DD/MM/YYYY.")
 
        
        if stato == "In ferie":
            data_inizio = self.entry_data_inizio.get()
            data_fine = self.entry_data_fine.get()
-           print(f"In ferie dal {data_inizio} al {data_fine}")
        else:
            data_inizio = None
            data_fine = None
 
        
-       PT.aggiorna_dati(self.controller, 
-                        id=self.trainer_data['id'], 
+       PT.aggiorna_dati(self,
+                        id_document=self.trainer_data['id'], 
                         nome=nome,
                         cognome=cognome,
                         stipendio=stipendio,

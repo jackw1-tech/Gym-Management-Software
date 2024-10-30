@@ -6,7 +6,7 @@ class CoursePackageSearchView:
     def __init__(self, master, packages):
         self.master = master
         self.master.title("Ricerca Pacchetti di Corsi")
-        self.master.geometry("600x500")
+        self.master.geometry("700x600")
         
         # Imposta il tema e i colori
         ctk.set_appearance_mode("dark")
@@ -46,8 +46,8 @@ class CoursePackageSearchView:
         screen_height = self.master.winfo_screenheight()
 
         # Calcolare le dimensioni della finestra
-        window_width = 600
-        window_height = 500
+        window_width = 700
+        window_height = 600
 
         # Calcolare la posizione x e y per centrare la finestra
         x = (screen_width // 2) - (window_width // 2)

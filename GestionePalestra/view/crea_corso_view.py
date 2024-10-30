@@ -6,7 +6,7 @@ class CreaCorsoView:
     def __init__(self, master, home_callback):
         self.master = master
         self.master.title("Aggiungi Nuovo Corso")
-        self.master.geometry("600x500")
+        self.master.geometry("700x600")
         self.corso_controller = corso_controller(self)
         
 
@@ -49,8 +49,8 @@ class CreaCorsoView:
         screen_height = self.master.winfo_screenheight()
 
         # Calcolare le dimensioni della finestra
-        window_width = 600
-        window_height = 500
+        window_width = 700
+        window_height = 600
 
         # Calcolare la posizione x e y per centrare la finestra
         x = (screen_width // 2) - (window_width // 2)

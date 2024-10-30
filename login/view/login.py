@@ -6,7 +6,7 @@ class LoginScreen:
     def __init__(self, master):
         self.master = master
         self.master.title("Gym Management Software - Login")
-
+        
         # Impostare la modalità del tema e i colori
         ctk.set_appearance_mode("dark")  # Imposta il tema scuro
         ctk.set_default_color_theme("blue")  # Imposta il tema del colore
@@ -42,8 +42,8 @@ class LoginScreen:
         screen_height = self.master.winfo_screenheight()
 
         # Calcolare le dimensioni della finestra
-        window_width = 600
-        window_height = 500
+        window_width = 700
+        window_height = 600
 
         # Calcolare la posizione x e y per centrare la finestra
         x = (screen_width // 2) - (window_width // 2)
