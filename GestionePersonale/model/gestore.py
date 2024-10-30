@@ -117,8 +117,9 @@ class Gestore:
                         pt_data = pt.to_dict()
                         pt_data['id'] = pt.id
                         if(pt_data['stato'] != 'cancellato'):
-                            lista_pt.append(pt_data)
-                            PT.manda_in_ferie(pt_data['id'])
+                            p = PT.manda_in_ferie(pt_data['id'])
+                            lista_pt.append(p)
+                          
                             
                             
                     print(lista_pt)

@@ -113,8 +113,9 @@ class PT:
 
                     if data_inizio <= oggi <= data_fine:
                         pt_ref.update({"stato": "In ferie"})
-                    elif oggi > data_fine:
+                    elif oggi > data_fine or oggi < data_inizio:
                         pt_ref.update({"stato": "Disponibile"})
+                        
                 
                 # Reset delle date e stato
                 else:
@@ -123,6 +124,11 @@ class PT:
                         "data_fine": "",
                         "stato": "Disponibile"
                     })
+        pt_ref = db.collection('pt').document(id_document)
+        pt = pt_ref.get()
+        pt_data = pt.to_dict()
+        pt_data['id'] = id_document
+        return pt_data
             
     def ottieni_corsi_attuali_pt(id_document):
         from GestionePersonale.model.pt import PT
