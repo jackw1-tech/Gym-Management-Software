@@ -7,7 +7,7 @@ class corso:
     def __init__(self, nome, descrizione):
         self.nome = nome  # Nome del corso
         self.descrizione = descrizione  # Descrizione del corso
-        self.pt_assegnato = None  # PT (Personal Trainer) assegnato al corso
+        self.pt_assegnato = []  # PT (Personal Trainer) assegnato al corso
 
     def getNome(self):
         return self.nome
@@ -31,7 +31,7 @@ class corso:
         corso_data = {
             'nome': self.nome,
             'descrizione': self.descrizione,
-            'pt_assegnato': self.pt_assegnato if self.pt_assegnato else None
+            'pt_assegnato': []
         }
         try:
             
@@ -82,3 +82,32 @@ class corso:
         except Exception as e:
             print("Errore durante la ricerca del documento:", e)
             return None
+        
+    def aggiorna_pt_al_corso(pt_id, corso_id, tipo):
+        # Pulisce il pt_id rimuovendo caratteri non necessari
+        pt_id = pt_id.replace("'", "").strip()
+        pt_id = pt_id.replace("{", "").strip()
+        pt_id = pt_id.replace("}", "").strip()
+        
+        # Riferimento al documento del corso
+        corso_ref = db.collection('corsi').document(str(corso_id))
+        corso = corso_ref.get()
+        
+        if corso.exists:
+            # Ottieni la lista di pt_assegnato
+            pt_esistente = corso.to_dict().get("pt_assegnato", [])
+            
+            if tipo == "+":
+                # Aggiungi il pt_id alla lista se non è già presente
+                if pt_id not in pt_esistente:
+                    pt_esistente.append(pt_id)
+            elif tipo == "-":
+                # Rimuovi il pt_id dalla lista se presente
+                if pt_id in pt_esistente:
+                    pt_esistente.remove(pt_id)
+            
+            # Aggiorna il documento del corso con la lista aggiornata
+            corso_ref.update({"pt_assegnato": pt_esistente})
+
+            
+            

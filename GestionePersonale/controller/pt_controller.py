@@ -4,6 +4,7 @@ import customtkinter as ctk
 from tkinter import messagebox
 from GestionePersonale.model.gestore import Gestore
 from GestionePersonale.model.pt import PT
+from GestionePalestra.model.corso import corso
 
 
 
@@ -36,8 +37,9 @@ class PTController:
         PersonalTrainerSearchView(root, personal_trainers, PTController.torna_gestione_personal_trainer_by_gestore)
         root.mainloop()
         
-    def assegna_corso_pt(self, pt_id, corso, tipo):
-        PT.aggiorna_corsi_pt(str(pt_id), str(corso), str(tipo))
+    def assegna_corso_pt(self, pt_id, corso_id, tipo):
+        PT.aggiorna_corsi_pt(str(pt_id), str(corso_id), str(tipo))
+        corso.aggiorna_pt_al_corso(str(pt_id), str(corso_id), str(tipo))
         
     
     def assegna_corsi_view(self, id_pt):

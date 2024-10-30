@@ -213,7 +213,7 @@ class PT:
             else:
                 PT.manda_in_ferie(id_document)
     
-    
+   
     def aggiorna_corsi_pt(pt_id,corso_id,tipo):
         pt_id = pt_id.replace("'", "").strip()
         pt_id = pt_id.replace("{", "").strip()

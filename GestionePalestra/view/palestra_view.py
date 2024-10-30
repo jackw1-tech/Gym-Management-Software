@@ -58,10 +58,12 @@ class PalestraView:
         print("Visualizzazione degli orari della palestra")
 
     def visualizza_pacchetti(self):
-        print("Visualizzazione dei pacchetti disponibili")
-        # Usa direttamente la finestra esistente, senza creare un'altra finestra principale
-        controller = pacchetto_controller(self.master)  # Passa la finestra principale esistente
+        self.master.destroy()
+        nuova_master = ctk.CTk() 
+        controller = pacchetto_controller(nuova_master)
         controller.open_course_package_search()
+        nuova_master.mainloop()
+        
     
     def visualizza_corsi(self):
         print("Visualizzazione dei corsi disponibili")

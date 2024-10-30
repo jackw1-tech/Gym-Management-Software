@@ -1,16 +1,17 @@
 import customtkinter as ctk
 from tkinter import messagebox
 from GestionePalestra.controller.pacchetto_controller import pacchetto_controller
-from GestionePalestra.view.aggiungi_corsi_view import AggiungiCorsiView
+
 
 class AggiungiPacchettoView:
-    def __init__(self, master, aggiungi_pacchetto_callback, corsi_selezionati):
+    def __init__(self, master, aggiungi_pacchetto_callback, corsi_selezionati, home_callback):
         self.master = master
         self.master.title("Aggiungi Pacchetto di Corsi")
         self.master.geometry("700x600")
         self.aggiungi_pacchetto_callback = aggiungi_pacchetto_callback
         self.pachetto_controller = pacchetto_controller(self)
         self.corsi_sel = corsi_selezionati
+        self.home_callback = home_callback
 
         # Imposta il tema e i colori
         ctk.set_appearance_mode("dark")
@@ -40,13 +41,16 @@ class AggiungiPacchettoView:
         self.mostra_corsi_selezionati(corsi_selezionati)
 
         # Pulsante per aggiungere corsi
-        self.aggiungi_corsi_button = ctk.CTkButton(master, text="Aggiungi Corsi", command=self.aggiungi_corsi)
-        self.aggiungi_corsi_button.pack(pady=20)
-
+        self.aggiungi_corsi_button = ctk.CTkButton(master, text="Aggiungi corsi al pacchetto", command=self.aggiungi_corsi)
+        self.aggiungi_corsi_button.pack(pady=10)
+         # Pulsante "Indietro"
+        
         # Pulsante per aggiungere il pacchetto
         self.submit_button = ctk.CTkButton(master, text="Aggiungi Pacchetto", command=self.submit_pacchetto)
-        self.submit_button.pack(pady=20)
+        self.submit_button.pack(pady=10)
         self.center_window()
+        self.back_button = ctk.CTkButton(master, text="Indietro", command=self.go_back)
+        self.back_button.pack(pady=10)
 
     def center_window(self):
         # Calcolare la larghezza e l'altezza dello schermo
@@ -86,8 +90,12 @@ class AggiungiPacchettoView:
     def submit_pacchetto(self):
         nome_pacchetto = self.entry_nome.get()
         prezzo_pacchetto = self.entry_prezzo.get()
-      
         self.pachetto_controller.crea_pacchetto(nome_pacchetto,prezzo_pacchetto,self.corsi_sel)
+        messagebox.showinfo("Successo", "Pacchetto aggiunto con successo!")
+        self.master.destroy()
+        self.home_callback()
         
-        messagebox.showinfo("Successo", f"Pacchetto '{nome_pacchetto}' aggiunto con successo!")
-        self.master.destroy() 
+    
+    def go_back(self):
+        self.master.destroy()
+        self.home_callback() 

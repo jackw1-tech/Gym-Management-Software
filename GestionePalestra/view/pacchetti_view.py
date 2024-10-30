@@ -1,13 +1,15 @@
 import customtkinter as ctk
 from tkinter import messagebox
 from GestionePalestra.view.aggiungi_pacchetti_view import AggiungiPacchettoView
+from GestionePalestra.controller.pacchetto_controller import pacchetto_controller
 
 class CoursePackageSearchView:
-    def __init__(self, master, packages):
+    def __init__(self, master, packages, home_callback):
         self.master = master
         self.master.title("Ricerca Pacchetti di Corsi")
         self.master.geometry("700x600")
-        
+        self.home_callback = home_callback
+        self.pacchetto_controller = pacchetto_controller(self)
         # Imposta il tema e i colori
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
@@ -32,6 +34,10 @@ class CoursePackageSearchView:
         self.add_package_button = ctk.CTkButton(master, text="+ Aggiungi Pacchetto", command=self.add_package)
         self.add_package_button.pack(pady=10)
 
+        # Pulsante "Indietro"
+        self.back_button = ctk.CTkButton(master, text="Indietro", command=self.go_back)
+        self.back_button.pack(pady=10)
+        
         # Frame per visualizzare i risultati
         self.result_frame = ctk.CTkFrame(master)
         self.result_frame.pack(fill="both", expand=True, padx=20, pady=10)
@@ -56,7 +62,10 @@ class CoursePackageSearchView:
         # Impostare la geometria della finestra
         self.master.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
-
+    def go_back(self):
+        self.master.destroy()
+        self.home_callback() 
+        
     def search_packages(self):
         query = self.search_entry.get().lower()
         self.filtered_packages = [package for package in self.packages if query in package['nome'].lower()]
@@ -83,12 +92,13 @@ class CoursePackageSearchView:
             button_delete_package = ctk.CTkButton(self.result_frame, text="Elimina Pacchetto", command=lambda p=package: self.delete_package(p))
             button_delete_package.grid(row=index, column=3, padx=5, pady=10, sticky="e")
 
-    def aggiugni_pacchetto_callback():
-        print("ciao")
+    def aggiugni_pacchetto_callback(self):
+        self.pacchetto_controller.open_course_package_search()
+        
     def add_package(self):
         self.master.destroy()
-        root = ctk.CTkToplevel()
-        AggiungiPacchettoView(root, self.aggiugni_pacchetto_callback,[])
+        root  = ctk.CTk()
+        AggiungiPacchettoView(root, self.aggiugni_pacchetto_callback,[], self.home_callback)
         root.mainloop()
 
     def view_details(self, package):
@@ -99,10 +109,5 @@ class CoursePackageSearchView:
 
     def delete_package(self, package):
         print(f"Elimina pacchetto {package['nome']}")
-        # Simula l'eliminazione del pacchetto
-        # Per esempio, modifica lo stato nel database
-        # Mostra un popup di conferma
         messagebox.showinfo("Eliminato", f"Pacchetto {package['nome']} eliminato")
-        
-        # Ricarica la vista dei risultati
         self.search_packages()
