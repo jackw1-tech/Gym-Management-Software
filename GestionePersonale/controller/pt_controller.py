@@ -1,4 +1,3 @@
-# controller.py
 import tkinter as tk
 import customtkinter as ctk
 from tkinter import messagebox
@@ -21,13 +20,13 @@ class PTController:
     def go_back_home():
         from login.view.gestore_view import MainView
         home_window = ctk.CTk()
-        MainView(home_window)  # Riapre la schermata della dashboard
+        MainView(home_window)  
         home_window.mainloop()
         
     def torna_gestione_personal_trainer_by_gestore():
         from GestionePersonale.view.personale_view import PersonaleView
-        main_window = ctk.CTk()  # Crea una nuova finestra
-        PersonaleView(main_window, home_callback=PTController.go_back_home)  # Apre la schermata del personale con il pulsante Torna alla Home
+        main_window = ctk.CTk()
+        PersonaleView(main_window, home_callback=PTController.go_back_home)  
         main_window.mainloop()
         
     def get_view_trova_pt(self):

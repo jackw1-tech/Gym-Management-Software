@@ -15,39 +15,43 @@ class AssegnaCorsiView:
         self.back_callback = back_callback
         self.controller = PTController(self)
 
+        
         # Imposta il tema e i colori
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
-
+        self.scrollable_frame = ctk.CTkScrollableFrame(master, width=580, height=360)
+        self.scrollable_frame.pack(pady=20, padx=20, fill="both", expand=True)
         # Titolo della schermata
-        self.label_title = ctk.CTkLabel(master, text="Assegna Corsi al PT", font=ctk.CTkFont(size=24, weight="bold"))
+        self.label_title = ctk.CTkLabel(self.scrollable_frame, text="Assegna Corsi al PT", font=ctk.CTkFont(size=24, weight="bold"))
         self.label_title.pack(pady=20)
 
         # Campo di ricerca
-        self.label_search = ctk.CTkLabel(master, text="Cerca Corsi:", font=ctk.CTkFont(size=14))
+        self.label_search = ctk.CTkLabel(self.scrollable_frame, text="Cerca Corsi:", font=ctk.CTkFont(size=14))
         self.label_search.pack(pady=10)
-        self.entry_search = ctk.CTkEntry(master, placeholder_text="Inserisci nome corso")
+        self.entry_search = ctk.CTkEntry(self.scrollable_frame, placeholder_text="Inserisci nome corso")
         self.entry_search.pack(pady=10)
 
         # Pulsante Cerca
-        self.search_button = ctk.CTkButton(master, text="Cerca", command=self.cerca_corsi)
+        self.search_button = ctk.CTkButton(self.scrollable_frame, text="Cerca", command=self.cerca_corsi)
         self.search_button.pack(pady=10)
 
         # Pulsante Torna Indietro
-        self.back_button = ctk.CTkButton(master, text="Torna Indietro", command=self.torna_indietro)
+        self.back_button = ctk.CTkButton(self.scrollable_frame, text="Torna Indietro", command=self.torna_indietro)
         self.back_button.pack(pady=10)
 
+        self.label_disponibili = ctk.CTkLabel(self.scrollable_frame, text="Corsi disponibili:", font=ctk.CTkFont(size=16, weight="bold"))
+        self.label_disponibili.pack(pady=10)
         # Frame per corsi disponibili
-        self.corsi_disponibili_frame = ctk.CTkFrame(master)
+        self.corsi_disponibili_frame = ctk.CTkFrame(self.scrollable_frame)
         self.corsi_disponibili_frame.pack(fill="both", expand=True, padx=20, pady=10)
         self.mostra_corsi_disponibili(corsi_disponibili)
 
         # Etichetta per i corsi già assegnati
-        self.label_assegnati = ctk.CTkLabel(master, text="Corsi già assegnati:", font=ctk.CTkFont(size=16, weight="bold"))
+        self.label_assegnati = ctk.CTkLabel(self.scrollable_frame, text="Corsi già assegnati:", font=ctk.CTkFont(size=16, weight="bold"))
         self.label_assegnati.pack(pady=10)
 
         # Frame per corsi assegnati
-        self.corsi_asportati_frame = ctk.CTkFrame(master)
+        self.corsi_asportati_frame = ctk.CTkFrame(self.scrollable_frame)
         self.corsi_asportati_frame.pack(fill="both", expand=True, padx=20, pady=10)
         self.mostra_corsi_asportati(corsi_attuali)
         self.center_window()

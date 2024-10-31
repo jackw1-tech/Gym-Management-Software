@@ -35,7 +35,7 @@ class CreaCorsoView:
 
 
         # Pulsante per registrare il corso
-        self.button_registra = ctk.CTkButton(self.scrollable_frame, text="Registra Corso", command=self.registra_corso)
+        self.button_registra = ctk.CTkButton(self.scrollable_frame, text="Registra Corso", command=lambda:self.registra_corso(home_callback))
         self.button_registra.pack(pady=10)
 
         # Pulsante per tornare alla Home
@@ -62,14 +62,17 @@ class CreaCorsoView:
 
     def torno_alla_home(self, funzione):
         self.master.destroy()
-        funzione()
+        funzione(self)
 
-    def registra_corso(self):
+    def registra_corso(self, funzione):
         nome = self.entry_nome.get()
         descrizione = self.entry_descrizione.get()
         self.corso_controller.crea_corso(nome,descrizione)
-        messagebox.showinfo("Corso creato con successo")
+        messagebox.showinfo("Successo", "Corso creato con successo")
+        
         self.master.destroy()
+        funzione(self)
+        
         
        
         

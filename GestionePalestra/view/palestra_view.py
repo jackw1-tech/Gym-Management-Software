@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from GestionePalestra.controller.pacchetto_controller import pacchetto_controller
 
+
 class PalestraView:
     def __init__(self, master, home_callback):
         self.master = master
@@ -66,4 +67,7 @@ class PalestraView:
         
     
     def visualizza_corsi(self):
-        print("Visualizzazione dei corsi disponibili")
+        from GestionePalestra.controller.corso_controller import corso_controller
+        self.master.destroy()
+        controller = corso_controller(self)
+        controller.sezione_corsi_view()

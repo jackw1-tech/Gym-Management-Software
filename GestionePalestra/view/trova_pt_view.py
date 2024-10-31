@@ -39,8 +39,8 @@ class PersonalTrainerSearchView:
         self.result_frame = ctk.CTkFrame(master)
         self.result_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
-        # Visualizza i primi 5 PT
-        self.display_trainers(self.filtered_trainers[:5])
+        
+        self.display_trainers(self.filtered_trainers[:8])
         self.center_window()
 
     def center_window(self):
@@ -76,9 +76,9 @@ class PersonalTrainerSearchView:
             name_label = ctk.CTkLabel(self.result_frame, text=f"{trainer['nome']} {trainer['cognome']}", font=ctk.CTkFont(size=16))
             name_label.grid(row=index, column=0, padx=10, pady=10, sticky="w")
 
-            # Pulsanti allineati a destra sulla stessa riga
-            button_assign_courses = ctk.CTkButton(self.result_frame, text="Assegna Corsi", command=lambda t=trainer: self.assign_courses(t))
-            button_assign_courses.grid(row=index, column=1, padx=5, pady=10, sticky="e")
+            if(trainer['stato'] == 'Disponibile'):
+                button_assign_courses = ctk.CTkButton(self.result_frame, text="Assegna Corsi", command=lambda t=trainer: self.assign_courses(t))
+                button_assign_courses.grid(row=index, column=1, padx=5, pady=10, sticky="e")
 
             button_modify_pt = ctk.CTkButton(self.result_frame, text="Modifica PT", command=lambda t=trainer: self.modify_pt(t))
             button_modify_pt.grid(row=index, column=2, padx=5, pady=10, sticky="e")

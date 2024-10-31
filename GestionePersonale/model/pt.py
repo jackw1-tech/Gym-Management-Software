@@ -21,29 +21,7 @@ class PT:
         self.data_inizio_ferie = None
         self.data_fine_ferie = None
 
-    def getNome(self):
-        return self.nome
-
-    def getCognome(self):
-        return self.cognome
-
-    def getStipendio(self):
-        return self.stipendio
-
-    def getListaClienti(self):
-        return self.clienti
-
-    def getListaCorsi(self):
-        return self.corsi
-
-    def inserisciNome(self, nome):
-        self.nome = nome
-
-    def inserisciCognome(self, cognome):
-        self.cognome = cognome
-
-    def inserisciStipendio(self, stipendio):
-        self.stipendio = stipendio
+   
     
     def check_credentials_gestore(username, password):
         try:
@@ -78,11 +56,11 @@ class PT:
             'data_inizio': "",
             'data_fine' : "",
         }
-        
+
 
         try:
-            # Inserire il documento nella collezione "pt"
-            pt_ref = db.collection('pt').add(pt_data)  # Questo crea automaticamente un nuovo documento con ID univoco
+            
+            pt_ref = db.collection('pt').add(pt_data)
             
             Gestore.aggiungi_pt_alla_lista(pt_ref[1].id)
         except Exception as e:
@@ -117,7 +95,7 @@ class PT:
                         pt_ref.update({"stato": "Disponibile"})
                         
                 
-                # Reset delle date e stato
+              
                 else:
                     pt_ref.update({
                         "data_inizio": "",
@@ -144,7 +122,7 @@ class PT:
                 if 'corsi' in user_data:
                     corsi = user_data['corsi']
                     
-                    # Controlla se corsi è un set e converti in lista
+              
                     if isinstance(corsi, set):
                         corsi = list(corsi)
                     elif not isinstance(corsi, list):
@@ -153,9 +131,9 @@ class PT:
                     for documento in corsi:
                         corsi_ref = db.collection('corsi').document(documento)
                         corso = corsi_ref.get()
-                        if corso.exists:  # Verifica che il documento esista
+                        if corso.exists: 
                             corso_data = corso.to_dict()
-                            corso_data['id'] = corso.id  # Aggiungi l'ID del corso
+                            corso_data['id'] = corso.id 
                             lista_corsi.append(corso_data)
                         
                             
@@ -172,7 +150,7 @@ class PT:
              
     def ottieni_corsi_non_attuali_pt(id_document):
         lista_corsi_attuali = PT.ottieni_corsi_attuali_pt(id_document)
-        lista_corsi_attuali_ids = {corso['id'] for corso in lista_corsi_attuali}  # Supponendo che ogni corso abbia un campo 'id'
+        lista_corsi_attuali_ids = {corso['id'] for corso in lista_corsi_attuali} 
 
         lista_corsi_non_attuali = []
         try:
@@ -228,3 +206,46 @@ class PT:
                 if corso_id in corsi_esistenti:
                  corsi_esistenti.remove(corso_id)
             pt_ref.update({"corsi": corsi_esistenti})
+    
+    def rimuovi_corso_da_pt(id_corso):
+        try:
+        
+            pt_ref = db.collection('pt')
+            lista_pt = pt_ref.stream() 
+
+            for pt in lista_pt:
+                pt_data = pt.to_dict()
+                
+                
+                if 'corsi' in pt_data and id_corso in pt_data['corsi']:
+                   
+                    nuova_lista_corsi = [corso for corso in pt_data['corsi'] if corso != id_corso]
+                    
+                    
+                    pt_ref.document(pt.id).update({
+                        'corsi': nuova_lista_corsi
+                    })
+                    
+
+        except Exception as e:
+            print("Errore durante la rimozione del corso dai pacchetti:", e)
+    
+    def ottieni_dati_pt(lista_id_pt):
+        dati_pt = []
+        
+        for pt_id in lista_id_pt:
+            try:
+                pt_ref = db.collection('pt').document(pt_id)
+                pt = pt_ref.get()
+                
+                if pt.exists:
+                    pt_data = pt.to_dict()
+                    pt_data['id'] = pt_id 
+                    dati_pt.append(pt_data)
+                else:
+                    print(f"PT con ID {pt_id} non trovato.")
+                    
+            except Exception as e:
+                print(f"Errore durante il recupero dei dati per il PT con ID {pt_id}: {e}")
+        
+        return dati_pt
