@@ -63,6 +63,8 @@ class OrariView:
         # Chiama la funzione per aggiungere l'orario
         Sistema.aggiungi_orario(orario_settimanale)
 
+        self.master.destroy()
+
 # Avvia l'applicazione
 if __name__ == "__main__":
     root = ctk.CTk()
