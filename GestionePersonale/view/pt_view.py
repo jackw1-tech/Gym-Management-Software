@@ -1,4 +1,6 @@
 import customtkinter as ctk
+from GestionePalestra.view.orari_pt import OrariVisualizzazione
+from GestionePalestra.view.orari_view import OrariView
 
 class PTView:
     def __init__(self, master):
@@ -53,3 +55,6 @@ class PTView:
 
     def open_palestra(self):
         print("Apertura schermata Palestra")
+        orari_finestra = ctk.CTk()  # Nuova finestra
+        app_orari = OrariVisualizzazione(orari_finestra)
+        orari_finestra.mainloop()

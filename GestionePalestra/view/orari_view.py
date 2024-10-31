@@ -6,6 +6,13 @@ import customtkinter as ctk
 from tkinter import messagebox
 from GestionePalestra.model.sistema import Sistema
 
+# Carica le variabili d'ambiente dal file .env
+load_dotenv()
+cred_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+if not firebase_admin._apps:
+    cred = credentials.Certificate(cred_path)
+    firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 # Classe per la schermata "Orari"
 class OrariView:
@@ -27,14 +34,24 @@ class OrariView:
         self.entries = {}
         giorni = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"]
         
+        # Recupera gli orari dal database, se esistenti
+        orari_esistenti = self.get_orari_esistenti()
+        
         # Creazione dei campi per ciascun giorno nella cornice scorrevole
         for giorno in giorni:
             label = ctk.CTkLabel(self.scrollable_frame, text=f"{giorno}: Orario Apertura - Orario Chiusura")
             label.pack(pady=5)
 
             apertura_entry = ctk.CTkEntry(self.scrollable_frame, placeholder_text="Apertura (es. 08:00)")
-            apertura_entry.pack(pady=5)
             chiusura_entry = ctk.CTkEntry(self.scrollable_frame, placeholder_text="Chiusura (es. 20:00)")
+            
+            # Precompila gli orari se esistenti
+            if orari_esistenti and giorno in orari_esistenti:
+                apertura, chiusura = orari_esistenti[giorno].split('-')
+                apertura_entry.insert(0, apertura.strip())
+                chiusura_entry.insert(0, chiusura.strip())
+            
+            apertura_entry.pack(pady=5)
             chiusura_entry.pack(pady=5)
 
             # Salva le entry nel dizionario per accedervi successivamente
@@ -44,6 +61,18 @@ class OrariView:
         self.button_aggiungi = ctk.CTkButton(master, text="Aggiungi Orario", command=self.aggiungi_orario_callback)
         self.button_aggiungi.pack(pady=20)
     
+    def get_orari_esistenti(self):
+        """Recupera l'orario settimanale esistente dal database."""
+        try:
+            sistema_ref = db.collection("sistema").document("KT9mvjyzAPRWqZBZGGbc")
+            doc = sistema_ref.get()
+            if doc.exists:
+                return doc.to_dict().get("orario_settimanale", {})
+            return {}
+        except Exception as e:
+            messagebox.showerror("Errore", f"Errore nel recupero dell'orario: {e}")
+            return {}
+
     def aggiungi_orario_callback(self):
         # Crea un dizionario per gli orari settimanali
         orario_settimanale = {}
@@ -70,5 +99,3 @@ if __name__ == "__main__":
     root = ctk.CTk()
     app = OrariView(root)
     root.mainloop()
-
-

@@ -11,16 +11,13 @@ class Sistema:
         load_dotenv()
         self.cred_path = cred_path or os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
         self.codice_gestore = codice_gestore  # Codice gestore univoco
-        self.sistema_ref = self.db.collection("sistema").document("unico_orario")  # Documento unico
-
-                # Carica le variabili d'ambiente dal file .env
+        self.sistema_ref = self.db.collection("sistema").document("KT9mvjyzAPRWqZBZGGbc")  # Documento unico
+        
+        # Carica le variabili d'ambiente dal file .env
         load_dotenv()
         cred_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
         print(f"Path to credentials: {cred_path}")
-
-
-       
-
+        
 # Funzione per aggiungere l'orario alla raccolta "sistema"
     def aggiungi_orario(orario_settimanale):
         try:
@@ -45,17 +42,11 @@ class Sistema:
         except Exception as e:
             messagebox.showerror("Errore", f"Errore nell'aggiunta dell'orario: {e}")
     
-    
-
-    
-    
-
-
     def get_orario_settimanale(self):
         """
         Restituisce solo l'orario settimanale dal documento.
         """
-        dati = self.leggi_sistema()
+        dati = self.sistema_ref.get().to_dict()
         return dati.get("orario_settimanale") if dati else None
 
 
