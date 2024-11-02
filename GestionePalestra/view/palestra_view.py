@@ -2,12 +2,14 @@ import customtkinter as ctk
 from GestionePalestra.controller.pacchetto_controller import pacchetto_controller
 
 
+
 class PalestraView:
     def __init__(self, master, home_callback):
         self.master = master
         self.master.title("Gestione Palestra")
         self.master.geometry("700x600")
         self.controller = pacchetto_controller(self)
+        
 
 
         # Impostare la modalità del tema e i colori
@@ -56,7 +58,10 @@ class PalestraView:
 
     # Funzioni placeholder per i pulsanti
     def visualizza_orari(self):
-        print("Visualizzazione degli orari della palestra")
+        from GestionePalestra.view.orari_view import OrariView
+        orari_view_window = ctk.CTkToplevel(self.master)  # Crea una finestra secondaria
+        orari_view_app = OrariView(orari_view_window)  # Inizializza OrariView nella finestra secondaria   
+
 
     def visualizza_pacchetti(self):
         self.master.destroy()
@@ -71,3 +76,4 @@ class PalestraView:
         self.master.destroy()
         controller = corso_controller(self)
         controller.sezione_corsi_view()
+    
