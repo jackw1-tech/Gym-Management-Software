@@ -6,15 +6,15 @@ class CorsoDetailsView:
         self.master.title("Dettagli del Corso")
         self.master.geometry("500x400")
 
-        # Imposta il tema scuro e il tema colore blu
+      
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
 
-        # Frame scorrevole per i dettagli dei corsi
+      
         self.scrollable_frame = ctk.CTkScrollableFrame(master, width=580, height=550)
         self.scrollable_frame.pack(pady=20, padx=20, fill="both", expand=True)
 
-        # Titolo della pagina
+       
         self.label_title = ctk.CTkLabel(self.scrollable_frame, text="Dettagli del Corso", font=ctk.CTkFont(size=24, weight="bold"))
         self.label_title.pack(pady=20)
 
@@ -31,12 +31,9 @@ class CorsoDetailsView:
         label_scritta.pack(pady=15)
         
         
-        for index, pt in enumerate(lista_pt):
-            # Etichetta per il nome del corso
+        for pt in (lista_pt):
             label_nome = ctk.CTkLabel(self.scrollable_frame, text=f"Nome: {pt['nome']} {pt['cognome']}", font=ctk.CTkFont(size=16))
             label_nome.pack(pady=5)
-
-            # Separator tra i corsi
             separator = ctk.CTkLabel(self.scrollable_frame, text="-" * 30)
             separator.pack(pady=10)
 

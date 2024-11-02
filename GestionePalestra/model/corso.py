@@ -67,7 +67,6 @@ class corso:
                 doc = doc_ref.get()  
                 
                 if doc.exists:  
-                    
                     corso_data = doc.to_dict()
                     corso_data['id'] = doc.id
                     corsi.append(corso_data)  
@@ -75,7 +74,7 @@ class corso:
                     print(f"Documento con ID {id} non trovato.")
         except Exception as e:
             print("Errore durante il recupero dei corsi da Firebase:", e)
-
+        
         return corsi  
     
     def get_document_id(stringa_corso):

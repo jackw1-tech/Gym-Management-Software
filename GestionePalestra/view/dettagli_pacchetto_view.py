@@ -6,15 +6,15 @@ class PacchettoDetailsView:
         self.master.title("Dettagli del Pacchetto")
         self.master.geometry("500x400")
 
-        # Imposta il tema scuro e il tema colore blu
+       
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
 
-        # Frame scorrevole per i dettagli dei corsi
+     
         self.scrollable_frame = ctk.CTkScrollableFrame(master, width=580, height=550)
         self.scrollable_frame.pack(pady=20, padx=20, fill="both", expand=True)
 
-        # Titolo della pagina
+
         self.label_title = ctk.CTkLabel(self.scrollable_frame, text="Dettagli del pacchetto", font=ctk.CTkFont(size=24, weight="bold"))
         self.label_title.pack(pady=20)
 
@@ -29,17 +29,17 @@ class PacchettoDetailsView:
         
         label_scritta = ctk.CTkLabel(self.scrollable_frame, text="Lista Corsi: ", font=ctk.CTkFont(size=16))
         label_scritta.pack(pady=15)
-        # Aggiunta dei dettagli per ciascun corso
-        for index, corso in enumerate(lista_corsi):
-            # Etichetta per il nome del corso
+        
+        for corso in lista_corsi:
+           
             label_nome = ctk.CTkLabel(self.scrollable_frame, text=f"Nome: {corso['nome']}", font=ctk.CTkFont(size=16))
             label_nome.pack(pady=5)
 
-            # Etichetta per il prezzo del corso
+          
             label_prezzo = ctk.CTkLabel(self.scrollable_frame, text=f"Descrizione: {corso['descrizione']} ", font=ctk.CTkFont(size=16))
             label_prezzo.pack(pady=5)
 
-            # Separator tra i corsi
+        
             separator = ctk.CTkLabel(self.scrollable_frame, text="-" * 30)
             separator.pack(pady=10)
 

@@ -31,7 +31,7 @@ class CourseSearchView:
         self.back_button = ctk.CTkButton(master, text="Indietro", command=self.go_back)
         self.back_button.pack(pady=10)
 
-        # Frame per i risultati con scrollbar
+      
         self.result_frame = ctk.CTkFrame(master)
         self.result_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
@@ -65,11 +65,11 @@ class CourseSearchView:
 
     def display_courses(self, courses_to_display):
         for index, course in enumerate(courses_to_display):
-            # Nome corso allineato a sinistra
+          
             name_label = ctk.CTkLabel(self.scrollable_result_frame, text=course['nome'], font=ctk.CTkFont(size=16))
-            name_label.grid(row=index, column=0, padx=(10, 20), pady=10, sticky="w")  # Padding a destra per distanziare i pulsanti
+            name_label.grid(row=index, column=0, padx=(10, 20), pady=10, sticky="w")  
 
-            # Pulsanti allineati a destra, posizionati nelle ultime colonne
+            
             button_view_details = ctk.CTkButton(self.scrollable_result_frame, text="Visualizza Dettagli", command=lambda c=course: self.view_details(c))
             button_view_details.grid(row=index, column=1, padx=5, pady=10, sticky="e")
 
@@ -79,7 +79,7 @@ class CourseSearchView:
             button_delete_course = ctk.CTkButton(self.scrollable_result_frame, text="Elimina Corso", command=lambda c=course: self.delete_course(c))
             button_delete_course.grid(row=index, column=3, padx=5, pady=10, sticky="e")
 
-        # Configura la colonna 0 per l’allineamento del nome del corso e le altre per l'allineamento dei tasti a destra
+
         self.scrollable_result_frame.grid_columnconfigure(0, weight=1)
         self.scrollable_result_frame.grid_columnconfigure(1, weight=0)
         self.scrollable_result_frame.grid_columnconfigure(2, weight=0)

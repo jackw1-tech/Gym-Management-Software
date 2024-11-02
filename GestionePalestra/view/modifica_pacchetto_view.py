@@ -7,57 +7,56 @@ class ModificaPacchettoView:
         self.master.title("Modifica Pacchetto Corsi")
         self.master.geometry("700x600")
         self.corsi_disponibili = corsi_disponibili
-        self.corsi_selezionati = corsi_selezionati  # Corsi già assegnati
+        self.corsi_selezionati = corsi_selezionati 
         self.corsi_selezionati_callback = corsi_selezionati_callback
         self.id_pacchetto = id_pacchetto
         self.back = torna_indietro
-        # Imposta il tema e i colori
+     
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
 
-        # Titolo della schermata
+       
         self.label_title = ctk.CTkLabel(master, text="Modifica Pacchetto Corsi", font=ctk.CTkFont(size=20, weight="bold"))
         self.label_title.pack(pady=20)
 
-        # Frame scorrevole principale
+       
         self.scrollable_frame = ctk.CTkScrollableFrame(master)
         self.scrollable_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
-        # Sezione Nome Pacchetto
         self.label_nome = ctk.CTkLabel(self.scrollable_frame, text="Nome Pacchetto:", font=ctk.CTkFont(size=14))
         self.label_nome.pack(pady=(10, 0))
         self.entry_nome = ctk.CTkEntry(self.scrollable_frame, width=300)
         self.entry_nome.pack(pady=(0, 10))
-        self.entry_nome.insert(0, nome_pacchetto)  # Inserisci il nome del pacchetto esistente
+        self.entry_nome.insert(0, nome_pacchetto) 
 
-        # Sezione Prezzo Pacchetto
+      
         self.label_prezzo = ctk.CTkLabel(self.scrollable_frame, text="Prezzo Pacchetto:", font=ctk.CTkFont(size=14))
         self.label_prezzo.pack(pady=(10, 0))
         self.entry_prezzo = ctk.CTkEntry(self.scrollable_frame, width=300)
         self.entry_prezzo.pack(pady=(0, 10))
-        self.entry_prezzo.insert(0, str(prezzo_pacchetto))  # Inserisci il prezzo del pacchetto esistente
+        self.entry_prezzo.insert(0, str(prezzo_pacchetto)) 
 
-        # Sezione corsi selezionati
+     
         self.label_selezionati = ctk.CTkLabel(self.scrollable_frame, text="Corsi Selezionati", font=ctk.CTkFont(size=16, weight="bold"))
         self.label_selezionati.pack(pady=(10, 0))
 
         self.display_corsi_selezionati()
 
-        # Separator
+     
         self.separator1 = ctk.CTkFrame(self.scrollable_frame, height=2, width=700)
         self.separator1.pack(pady=10)
 
-        # Sezione corsi disponibili
+
         self.label_disponibili = ctk.CTkLabel(self.scrollable_frame, text="Corsi Disponibili", font=ctk.CTkFont(size=16, weight="bold"))
         self.label_disponibili.pack(pady=(10, 0))
 
         self.display_corsi_disponibili()
 
-        # Pulsante per confermare le modifiche
+      
         self.conferma_button = ctk.CTkButton(master, text="Conferma Modifiche", command=self.conferma_modifiche)
         self.conferma_button.pack(pady=10)
 
-        # Pulsante per tornare indietro
+      
         self.torna_indietro_button = ctk.CTkButton(master, text="Torna Indietro", command= self.tasto_indietro)
         self.torna_indietro_button.pack(pady=10)
 
@@ -128,13 +127,13 @@ class ModificaPacchettoView:
         nome_nuovo = self.entry_nome.get()
         prezzo_nuovo = self.entry_prezzo.get()
         
-        # Puoi fare un controllo qui per assicurarti che il prezzo sia un numero valido
+
         try:
             prezzo_nuovo_float = float(prezzo_nuovo)
             messagebox.showinfo("Aggiornamento Completato", "Il pacchetto è stato aggiornato")
             self.master.destroy()
             self.corsi_selezionati_callback(self.id_pacchetto, self.corsi_selezionati, nome_nuovo, prezzo_nuovo_float, ) 
-            # Passa il nuovo nome e prezzo
+        
         except ValueError:
             messagebox.showerror("Errore", "Il prezzo deve essere un numero valido")
 

@@ -19,15 +19,16 @@ class LoginController:
             
            
         else:
-            if PT.check_credentials_gestore(username, password):
+            success, pt_instance = PT.check_credentials_gestore(username, password)
+            if success:
                 self.view.master.destroy()
                 from GestionePersonale.view.pt_view import PTView
                 main_window = ctk.CTk() 
-                  
-                main_window.title("Dashboard PT")
-                PTView(main_window)   
-               
+                PTView(main_window, pt_instance)  
+            
             else:
-                messagebox.showerror("Login Failed", "Invalid username or password")
-
+                messagebox.showerror("Autenticazione fallita", "Username o password errati")
+             
+               
+            
     

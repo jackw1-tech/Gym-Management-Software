@@ -9,18 +9,15 @@ class PalestraView:
         self.master.title("Gestione Palestra")
         self.master.geometry("700x600")
         self.controller = pacchetto_controller(self)
-        
+    
+        ctk.set_appearance_mode("dark") 
+        ctk.set_default_color_theme("blue")
 
-
-        # Impostare la modalità del tema e i colori
-        ctk.set_appearance_mode("dark")  # Imposta il tema scuro
-        ctk.set_default_color_theme("blue")  # Imposta il tema del colore
-
-        # Label del titolo
+     
         self.label_title = ctk.CTkLabel(master, text="Gestione Palestra", font=ctk.CTkFont(size=24, weight="bold"))
         self.label_title.pack(pady=20)
 
-        # Creazione dei pulsanti
+      
         self.button_orari = ctk.CTkButton(master, text="Orari", command=self.visualizza_orari)
         self.button_orari.pack(pady=10)
 
@@ -30,37 +27,37 @@ class PalestraView:
         self.button_corsi = ctk.CTkButton(master, text="Corsi", command=self.visualizza_corsi)
         self.button_corsi.pack(pady=10)
 
-        # Pulsante per tornare alla Home
+    
         self.button_back_home = ctk.CTkButton(master, text="Torna alla Home", command=lambda: self.torno_alla_home(home_callback))
         self.button_back_home.pack(pady=10)
         self.center_window()
 
     def center_window(self):
-        # Calcolare la larghezza e l'altezza dello schermo
+        
         screen_width = self.master.winfo_screenwidth()
         screen_height = self.master.winfo_screenheight()
 
-        # Calcolare le dimensioni della finestra
+
         window_width = 700
         window_height = 600
 
-        # Calcolare la posizione x e y per centrare la finestra
+      
         x = (screen_width // 2) - (window_width // 2)
         y = (screen_height // 2) - (window_height // 2)
 
-        # Impostare la geometria della finestra
+        
         self.master.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
 
     def torno_alla_home(self, funzione):
-        self.master.destroy()  # Chiude la finestra corrente
-        funzione()  # Richiama il callback passato (torna alla home)
+        self.master.destroy()  
+        funzione()
 
-    # Funzioni placeholder per i pulsanti
+
     def visualizza_orari(self):
         from GestionePalestra.view.orari_view import OrariView
-        orari_view_window = ctk.CTkToplevel(self.master)  # Crea una finestra secondaria
-        orari_view_app = OrariView(orari_view_window)  # Inizializza OrariView nella finestra secondaria   
+        orari_view_window = ctk.CTkToplevel(self.master)  
+        orari_view_app = OrariView(orari_view_window)   
 
 
     def visualizza_pacchetti(self):

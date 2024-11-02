@@ -21,7 +21,14 @@ class PT:
         self.data_inizio_ferie = None
         self.data_fine_ferie = None
 
-   
+    def get_nome(self):
+        return self.nome
+
+    def get_cognome(self):
+        return self.cognome
+
+    def get_stipendio(self):
+        return self.stipendio
     
     def check_credentials_gestore(username, password):
         try:
@@ -33,10 +40,19 @@ class PT:
                     pt_ref = db.collection('pt').document(pt_id)
                     pt = pt_ref.get()
                     pt_data = pt.to_dict()
+                   
                     if pt_data['username'] == username and pt_data['password'] == password:
-                        return True
-                else:
-                    return False
+                        if(pt_data['stato'] == "Disponibile"):
+                            pt_instance = PT(
+                                nome=pt_data['nome'],
+                                cognome=pt_data['cognome'],
+                                stipendio=pt_data['stipendio'],
+                                username=pt_data['username'],
+                                password=pt_data['password']
+                            )
+                            return True, pt_instance 
+                
+                return False, None
             else:
                 return False
         except Exception as e:
@@ -188,6 +204,8 @@ class PT:
             
             if(stato == 'Inattivo'):
                 pt_ref.update({"stato": "Inattivo"})
+            if(stato == 'Disponibile'):
+                pt_ref.update({"stato": "Disponibile"})
             else:
                 PT.manda_in_ferie(id_document)
     

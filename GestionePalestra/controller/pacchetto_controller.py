@@ -61,6 +61,7 @@ class pacchetto_controller:
             prezzo = dettagli_pacchetto["prezzo"]
             corsi = dettagli_pacchetto["lista_corsi"]
             lista_corsi = corso.recupera_corsi_da_firebase(corsi)
+          
             root = ctk.CTk()
             app = PacchettoDetailsView(root, lista_corsi,nome,prezzo)
             app.center_window()

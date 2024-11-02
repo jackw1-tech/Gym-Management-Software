@@ -6,48 +6,48 @@ class ModificaCorsoView:
         self.master = master
         self.master.title("Modifica Corso")
         self.master.geometry("700x600")
-        self.pts_assegnati = pts_assegnati  # PT già assegnati
+        self.pts_assegnati = pts_assegnati  
         self.pts_assegnati_callback = pts_assegnati_callback
         self.id_corso = id_corso
         self.back = torna_indietro
 
-        # Imposta tema e colori
+ 
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
 
-        # Titolo schermata
+      
         self.label_title = ctk.CTkLabel(master, text="Modifica Corso", font=ctk.CTkFont(size=20, weight="bold"))
         self.label_title.pack(pady=20)
 
-        # Frame scorrevole principale
+        
         self.scrollable_frame = ctk.CTkScrollableFrame(master)
         self.scrollable_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
-        # Sezione Nome Corso
+        
         self.label_nome = ctk.CTkLabel(self.scrollable_frame, text="Nome Corso:", font=ctk.CTkFont(size=14))
         self.label_nome.pack(pady=(10, 0))
         self.entry_nome = ctk.CTkEntry(self.scrollable_frame, width=300)
         self.entry_nome.pack(pady=(0, 10))
         self.entry_nome.insert(0, nome_corso)
 
-        # Sezione Descrizione Corso
+       
         self.label_descrizione = ctk.CTkLabel(self.scrollable_frame, text="Descrizione Corso:", font=ctk.CTkFont(size=14))
         self.label_descrizione.pack(pady=(10, 0))
         self.entry_descrizione = ctk.CTkEntry(self.scrollable_frame, width=300)
         self.entry_descrizione.pack(pady=(0, 10))
         self.entry_descrizione.insert(0, descrizione_corso)
 
-        # Sezione PT Assegnati
+       
         self.label_pts_assegnati = ctk.CTkLabel(self.scrollable_frame, text="PT Assegnati", font=ctk.CTkFont(size=16, weight="bold"))
         self.label_pts_assegnati.pack(pady=(10, 0))
 
         self.display_pts_assegnati()
 
-        # Pulsante per confermare le modifiche
+    
         self.conferma_button = ctk.CTkButton(master, text="Conferma Modifiche", command=self.conferma_modifiche)
         self.conferma_button.pack(pady=10)
 
-        # Pulsante per tornare indietro
+       
         self.torna_indietro_button = ctk.CTkButton(master, text="Torna Indietro", command=self.tasto_indietro)
         self.torna_indietro_button.pack(pady=10)
 
@@ -88,6 +88,6 @@ class ModificaCorsoView:
         nome_nuovo = self.entry_nome.get()
         descrizione_nuova = self.entry_descrizione.get()
 
-        # Esegue la callback per aggiornare le informazioni
+        
         self.master.destroy()
         self.pts_assegnati_callback(self.id_corso, self.pts_assegnati, nome_nuovo, descrizione_nuova)
