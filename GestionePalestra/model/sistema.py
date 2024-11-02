@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import firebase_admin
 from firebase_admin import credentials, firestore
 from tkinter import messagebox
+
 db = firestore.client()
 class Sistema:
     def __init__(self, cred_path, codice_gestore="KT9mvjyzAPRWqZBZGGbc"):
