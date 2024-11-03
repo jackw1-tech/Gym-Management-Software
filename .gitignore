@@ -1,2 +1,21 @@
+# Ignora l'ambiente virtuale
 venv/
+
+# Ignora i file di ambiente
 .env
+
+# Ignora file di log
+*.log
+
+# Ignora i file di cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignora i file di sistema
+.DS_Store
+Thumbs.db
+
+# Ignora i file di backup
+*.bak
+*.swp
