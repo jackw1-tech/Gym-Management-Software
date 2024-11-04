@@ -1,8 +1,6 @@
-import customtkinter as ctk
-from login.view.login import LoginScreen  
+
+from login.controller.LoginController import LoginController  
 
 
 if __name__ == "__main__":
-    root = ctk.CTk() 
-    login_screen = LoginScreen(root)
-    root.mainloop()
+    LoginController.handle_registration()

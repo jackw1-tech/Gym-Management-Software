@@ -12,7 +12,9 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 class Gestore:
-    def __init__(self, username, password):
+    def __init__(self, username, password, nome, cognome):
+        self.nome = nome
+        self.cognome = cognome
         self.username = username
         self.password = password
         self.lista_clienti = []
@@ -235,4 +237,49 @@ class Gestore:
                 return False
         except Exception as e:
             print(f"Errore durante l'eliminazione del corso: {e}")
+            return False
+
+    def verifica_esistenza_gestore():
+        try:
+            
+            gestore_ref = db.collection('gestore')
+            docs = gestore_ref.limit(1).get()
+
+            if not docs: 
+                return False
+
+            
+            user_ref = gestore_ref.document("KT1ntbxlXMCTzUAXSSay")
+            user = user_ref.get()
+
+            if not user.exists:
+                return False
+            
+            
+            return True
+
+        except Exception as e:
+            return False
+
+    def crea_gestore_firebase(self):
+        try:
+            
+            user_ref = db.collection('gestore').document("KT1ntbxlXMCTzUAXSSay")
+
+         
+            gestore_data = {
+                'nome': self.nome,  
+                'cognome': self.cognome,
+                'username': self.username,
+                'password': self.password,
+                'pt': [],  
+                'corsi': [],  
+                'pacchetti': []
+            }
+
+            user_ref.set(gestore_data)
+            return True
+            
+        except Exception as e:
+            print(f"Errore durante la creazione del gestore: {e}")
             return False
