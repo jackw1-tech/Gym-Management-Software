@@ -23,7 +23,7 @@ class Gestore:
 
     
    
-    def check_credentials_gestore(username, password):
+    def check_credentials_gestore(self, username, password):
         try:
             user_ref = db.collection('gestore').document("KT1ntbxlXMCTzUAXSSay")
             user = user_ref.get()
@@ -263,10 +263,7 @@ class Gestore:
 
     def crea_gestore_firebase(self):
         try:
-            
-            user_ref = db.collection('gestore').document("KT1ntbxlXMCTzUAXSSay")
-
-         
+            user_ref = db.collection('gestore').document("KT1ntbxlXMCTzUAXSSay")        
             gestore_data = {
                 'nome': self.nome,  
                 'cognome': self.cognome,

@@ -179,3 +179,4 @@ class ModificaPTView:
                         data_fine=data_fine)
        self.master.destroy() 
        funzione()  
+

@@ -47,7 +47,7 @@ class corso_controller:
         from GestionePersonale.model.pt import PT
         from GestionePalestra.view.dettagli_corso_view import CorsoDetailsView
         
-        dettagli_corso = corso.recupera_dettagli_corso(id_corso)
+        dettagli_corso = corso.recupera_dettagli_corso(self, id_corso)
         if dettagli_corso:
             nome = dettagli_corso["nome"]
             descrizione = dettagli_corso["descrizione"]
@@ -78,7 +78,7 @@ class corso_controller:
     def modifica_corso_view(self, id_corso):
         from GestionePersonale.model.pt import PT
         from GestionePalestra.view.modifica_corso_view import ModificaCorsoView
-        dettagli_corso = corso.recupera_dettagli_corso(id_corso)
+        dettagli_corso = corso.recupera_dettagli_corso(self, id_corso)
         if dettagli_corso:
             nome = dettagli_corso["nome"]
             descrizione = dettagli_corso["descrizione"]

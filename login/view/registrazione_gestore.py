@@ -5,7 +5,7 @@ from GestionePersonale.controller.gestore_controller import GestoreController
 class registra_gestore_view:
     def __init__(self, master, home_callback):
         self.master = master
-        self.master.title("Registrazione Gestorre")
+        self.master.title("Registrazione Gestore")
         self.master.geometry("700x600")
         self.controller = GestoreController(self)
 
@@ -64,7 +64,6 @@ class registra_gestore_view:
         self.master.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
 
- 
     def registra_gestore(self,funzione):
         nome = self.entry_nome.get()
         cognome = self.entry_cognome.get()

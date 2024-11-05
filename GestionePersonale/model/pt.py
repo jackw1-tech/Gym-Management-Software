@@ -227,7 +227,7 @@ class PT:
     
     def rimuovi_corso_da_pt(id_corso):
         try:
-        
+       
             pt_ref = db.collection('pt')
             lista_pt = pt_ref.stream() 
 

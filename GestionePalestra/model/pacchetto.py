@@ -88,7 +88,6 @@ class pacchetto:
 
     def rimuovi_corso_da_pacchetti(id_corso):
         try:
-       
             pacchetti_ref = db.collection('pacchetti')
             pacchetti = pacchetti_ref.stream() 
 

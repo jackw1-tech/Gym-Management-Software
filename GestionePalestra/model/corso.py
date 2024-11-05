@@ -135,12 +135,17 @@ class corso:
         except Exception as e:
             print(f"Errore durante l'eliminazione del corso: {e}")
     
-    def recupera_dettagli_corso(id_corso):
+    def recupera_dettagli_corso(self,id_corso):
         try:
-            
+           
+          
             corso_ref = db.collection("corsi").document(id_corso)
+           
             corso = corso_ref.get()
+            print(corso)
+         
             if corso.exists:
+                
                 return corso.to_dict()
             else:
                 return None

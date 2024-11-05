@@ -24,7 +24,7 @@ class LoginController:
             root.mainloop()
         
     def handle_login(self, username, password):
-        if Gestore.check_credentials_gestore(username, password):
+        if Gestore.check_credentials_gestore(self, username, password):
             self.view.master.destroy()
             from login.view.gestore_view import MainView
             main_window = ctk.CTk() 
