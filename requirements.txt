@@ -1,0 +1,6 @@
+customtkinter==5.2.2
+darkdetect==0.8.0
+packaging==25.0
+Pillow
+firebase-admin==6.4.0
+python-dotenv==1.0.0

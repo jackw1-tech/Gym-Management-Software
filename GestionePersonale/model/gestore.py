@@ -6,8 +6,11 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-cred_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-cred = credentials.Certificate(os.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
+cred_path = os.getenv(
+    "GOOGLE_APPLICATION_CREDENTIALS",
+    "progetto-ing-del-software-firebase-adminsdk-ogjqx-f260a3978a.json"
+)
+cred = credentials.Certificate(cred_path)
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
